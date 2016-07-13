@@ -7,7 +7,7 @@
     if($_POST['name']=='' || $_POST['country']==''){
         echo <<<END
         Вы ввели недостаточно данных<br>
-        <a href='index.html'><button>Перейти на страницу заполнения формы</button></a>
+        <a href='investors.html'><button>Перейти на страницу заполнения формы</button></a>
 END;
         exit(-1);
     }
@@ -18,8 +18,12 @@ END;
     $investor->addInvestor($name, $country, $logotype);
     echo <<<END
     <br>
-    <br><a href='index.html'><button>Перейти на страницу заполнения формы</button></a><br>
-    <br><a href='showInvestors.php'><button>Просмотреть всех инвесторов</button></a><br>  
+    <br><a href='investors.html'><button>Перейти на страницу заполнения формы</button></a><br>
+END;
+
+echo <<<END
+    <br>
+    <iframe src='showInvestors.php' width='1000' height='1000' ></iframe>  
 END;
 
 

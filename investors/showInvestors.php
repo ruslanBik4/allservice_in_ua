@@ -6,8 +6,8 @@
     $params = array($host, $user, $password, $database);
     $investor = new investorClass($params);
     echo($investor->showInvestor());
-echo <<<END
-            <br>
-            <br><a href='index.html'><button>Перейти на страницу заполнения формы</button></a><br>
-END;
+//echo <<<END
+//            <br>
+//            <br><a href='index.html'><button>Перейти на страницу заполнения формы</button></a><br>
+//END;
 ?>

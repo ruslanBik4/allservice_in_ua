@@ -15,7 +15,7 @@ class investorClass
     }
 
     public function showInvestor(){
-        $queryShowInvestors = "SELECT * FROM investors";
+        $queryShowInvestors = "SELECT * FROM investors ORDER BY id DESC";
         $result = mysqli_query($this->connectionToBase, $queryShowInvestors);
         $error = mysqli_error($this->connectionToBase);
         if($error){
@@ -55,7 +55,7 @@ class investorClass
         if($image_size != 0) {
             if ($image_size > 1024 * 1024 * 3) {
                 $ErrorDescription = "Ошибка! Размер логотипа дожен быть менее 3Мб";
-                die($ErrorDescription);
+                die($ErrorDescription."<br><br><a href='investors.html'><button>Перейти на страницу заполнения формы</button></a><br>");
             } else {
                 switch($files['type'])
                 {
@@ -96,7 +96,8 @@ class investorClass
         if($error){
             die('Ошибка записи данных:<br>'.$error);
         } else {
-            echo "<br>Данные инвестора {$name} успешно внесены в БД";
+            header('Location: investors.html');
+            //echo "<br>Данные инвестора {$name} успешно внесены в БД";
         }
     }
 
