@@ -7,7 +7,6 @@
     if(!isset($_POST['delete'])){
         echo <<<END
             <br>
-            <br><a href='index.html'><button>Перейти на страницу заполнения формы</button></a><br>
             <br><a href='showInvestors.php'><button>Просмотреть всех инвесторов</button></a><br>  
 END;
         exit(-1);
@@ -17,6 +16,6 @@ END;
     echo $investor->deleteInvestor($deleteId);
 echo <<<END
             <br>
-            <br><a href='index.html'><button>Перейти на страницу заполнения формы</button></a><br>
             <br><a href='showInvestors.php'><button>Просмотреть всех инвесторов</button></a><br>  
 END;
+    header('Location: showInvestors.php');
