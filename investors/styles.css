@@ -1,0 +1,15 @@
+table {
+    width: 60%; /* Ширина таблицы */
+    border: 4px double black; /* Рамка вокруг таблицы */
+    border-collapse: collapse; /* Отображать только одинарные линии */
+}
+
+td {
+    padding: 5px; /* Поля вокруг содержимого ячеек */
+    border: 1px solid black; /* Граница вокруг ячеек */
+}
+
+.logotypes{
+    max-width: 100px;
+    max-height: 100px;
+}
