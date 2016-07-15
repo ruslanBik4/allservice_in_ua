@@ -1,4 +1,3 @@
-<meta charset="utf-8">
 <?php
     require_once 'connectionData.php';
     require_once 'investorClass.php';
@@ -6,16 +5,16 @@
     $investor = new investorClass($params);
     if(!isset($_POST['delete'])){
         echo <<<END
-            <br>
+            <meta charset="utf-8">
             <br><a href='showInvestors.php'><button>Просмотреть всех инвесторов</button></a><br>  
 END;
         exit(-1);
     }
 
     $deleteId = $investor->sanitizeString($_POST['delete']);
+    header('Location: showInvestors.php');
     echo $investor->deleteInvestor($deleteId);
 echo <<<END
-            <br>
+            <meta charset="utf-8">
             <br><a href='showInvestors.php'><button>Просмотреть всех инвесторов</button></a><br>  
 END;
-    header('Location: showInvestors.php');

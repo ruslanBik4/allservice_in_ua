@@ -1,4 +1,3 @@
-<meta charset="UTF-8">
 <?php
     require_once 'connectionData.php';
     require_once 'investorClass.php';
@@ -6,6 +5,7 @@
     $investor = new investorClass($params);
     if($_POST['name']=='' || $_POST['country']==''){
         echo <<<END
+        <meta charset="UTF-8">
         Вы ввели недостаточно данных<br>
         <a href='investors.html'><button>Перейти на страницу заполнения формы</button></a>
 END;

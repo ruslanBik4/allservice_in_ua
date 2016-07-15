@@ -76,7 +76,7 @@ class investorClass
             }
         } else {
             $ErrorDescription = "Вы не загрузили логотип либо размер файла равен 0";
-            echo($ErrorDescription);
+            //echo($ErrorDescription);
         }
     }
 
