@@ -8,10 +8,26 @@ class investorClass
         $queryDeleteInvestor = "DELETE FROM investors WHERE id='{$id}' ";
         $result = mysqli_query($this->connectionToBase, $queryDeleteInvestor);
         $error = mysqli_error($this->connectionToBase);
-        if($error){
-            die('Ошибка удаления данных:<br>'.$error);
+        if(!$error){
+            return true;
+        } else {
+            return false;
         }
-        return "Запись с id={$id} успешно удалена";
+    }
+
+    public function showInvestorsForVisitors(){
+        $queryShowInvestors = "SELECT * FROM investors ORDER BY id";
+        $result = mysqli_query($this->connectionToBase, $queryShowInvestors);
+        $error = mysqli_error($this->connectionToBase);
+        if($error){
+            die('Ошибка чтения данных:<br>'.$error);
+        }
+        $message = "<table>";
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+            $message.="<tr><td>{$row['id']}</td><td>{$row['name']}</td><td>{$row['country']}</td></tr>";
+        }
+        $message.= "</table>";
+        return $message;
     }
 
     public function showInvestor(){
@@ -43,19 +59,26 @@ class investorClass
         $result=mysqli_query($this->connectionToBase, $queryForLogotype);
         $row = mysqli_fetch_array($result);
         $logotype = $row[0];
-        if(!$logotype) die();
-        header('Content-type: image/*');
-        echo $logotype;
+        if(!$logotype){
+            return false;
+        } else {
+            return $logotype;
+        }
     }
 
     public function processingImage(array $files)
     {
         $ErrorDescription = '';
+        $ErrorNumber = '';
+        $result = array();
         $image_size = $files['size'];
         if($image_size != 0) {
             if ($image_size > 1024 * 1024 * 3) {
+                $ErrorNumber = 1;
                 $ErrorDescription = "Ошибка! Размер логотипа дожен быть менее 3Мб";
-                die($ErrorDescription."<br><br><a href='investors.html'><button>Перейти на страницу заполнения формы</button></a><br>");
+                $result[0] = $ErrorNumber;
+                $result[1] = $ErrorDescription;
+                return $result;
             } else {
                 switch($files['type'])
                 {
@@ -66,8 +89,11 @@ class investorClass
                     default:           $ext = '';    break;
                 }
                 if (!$ext){
+                    $ErrorNumber = 2;
                     $ErrorDescription = "Ошибка! Загруженный файл не является картинкой";
-                    die($ErrorDescription);
+                    $result[0] = $ErrorNumber;
+                    $result[1] = $ErrorDescription;
+                    return $result;
                 } else {
                     $image = file_get_contents($files['tmp_name']);
                     $image = mysqli_real_escape_string($this->connectionToBase, $image);
@@ -75,8 +101,13 @@ class investorClass
                 }
             }
         } else {
+            //Логотип не был загружен
+            $ErrorNumber = 3;
             $ErrorDescription = "Вы не загрузили логотип либо размер файла равен 0";
-            //echo($ErrorDescription);
+            $result[0] = $ErrorNumber;
+            $result[1] = $ErrorDescription;
+            //return $result;
+            return '';
         }
     }
 
@@ -93,11 +124,10 @@ class investorClass
         $queryAddInvestor = "INSERT INTO investors(`name`, `country`, `logotype`) VALUES( '{$name}', '{$country}', '{$logotype}' )";
         $result = mysqli_query($this->connectionToBase, $queryAddInvestor);
         $error = mysqli_error($this->connectionToBase);
-        if($error){
-            die('Ошибка записи данных:<br>'.$error);
+        if(!$error){
+            return true;
         } else {
-            header('Location: investors.html');
-            //echo "<br>Данные инвестора {$name} успешно внесены в БД";
+            return false;
         }
     }
 

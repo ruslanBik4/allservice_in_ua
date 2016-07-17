@@ -1,3 +1,7 @@
+<?php
+    if(isset($_REQUEST['admin'])) {
+        $random = rand();
+        echo <<<END
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +18,10 @@
         <button type="submit">Добавить инвестора</button>
     </form>
     <br>
-    <!--<br><a href='showInvestors.php'><button>Просмотреть всех инвесторов</button></a><br>-->
-    <iframe src='showInvestors.php' width='1000' height='1000' ></iframe>
-</body>
+    <iframe src='showInvestors.php?param={$random}' width='1000' height='1000' ></iframe> 
+    </body>
 </html>
+END;
+    } else {
+        include_once 'showInvestorsForVisitors.php';
+    }
