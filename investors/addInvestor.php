@@ -3,29 +3,44 @@
     require_once 'investorClass.php';
     $params = array($host, $user, $password, $database);
     $investor = new investorClass($params);
+    $referAfterError = "<meta charset='utf-8'><br><br><a href='investors.php'><button>Перейти на страницу заполнения формы</button></a><br>";
     if($_POST['name']=='' || $_POST['country']==''){
-        echo <<<END
-        <meta charset="UTF-8">
-        Вы ввели недостаточно данных<br>
-        <a href='investors.html'><button>Перейти на страницу заполнения формы</button></a>
-END;
+        echo "Вы ввели недостаточно данных<br>";
+        echo $referAfterError;
         exit(-1);
     }
 
     $name = $investor->sanitizeString($_POST['name']);
     $country = $investor->sanitizeString($_POST['country']);
+
     $logotype = $investor->processingImage($_FILES['logotype']);
-    $investor->addInvestor($name, $country, $logotype);
-    echo <<<END
-    <br>
-    <br><a href='investors.html'><button>Перейти на страницу заполнения формы</button></a><br>
-END;
+    if(is_array($logotype)){
+        switch ($logotype[0]){
+            case 1:
+                echo $logotype[1];
+                echo $referAfterError;
+                die();
+            case 2:
+                echo $logotype[1];
+                echo $referAfterError;
+                die();
+            //Так как картинка не явлется обязательной ошибку отсутствия картинки отключаем
+//            case 3:
+//                echo "<meta charset='utf-8'>";
+//                echo $logotype[1];
+        }
+    }
 
-echo <<<END
-    <br>
-    <iframe src='showInvestors.php' width='1000' height='1000' ></iframe>  
-END;
-
-
+    $dobavlenieInvestora = $investor->addInvestor($name, $country, $logotype);
+    switch ($dobavlenieInvestora){
+        case true:
+            //Записать успешна
+            header('Location: investors.php');
+            break;
+        case false:
+            echo 'Ошибка записи данных:<br>';
+            echo $referAfterError;
+            die();
+    }
 ?>
 

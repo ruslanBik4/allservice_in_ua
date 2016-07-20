@@ -1,16 +1,15 @@
-<?php
-// Эти две строки моделируют работу сервера с кешированием
-header("Cache-control: public");
-header("Cache-control: max-age=1800");
-?>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="styles.css">
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Михаил
+ * Date: 17.07.2016
+ * Time: 19:04
+ */
     require_once 'connectionData.php';
     require_once 'investorClass.php';
-
-
     $params = array($host, $user, $password, $database);
     $investor = new investorClass($params);
-    echo($investor->showInvestor());    
+    echo($investor->showInvestorsForVisitors());    
 ?>
