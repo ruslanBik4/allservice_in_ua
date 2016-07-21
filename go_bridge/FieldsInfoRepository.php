@@ -17,9 +17,6 @@ class FieldsInfoRepository
     public function getAll()
     {
         return $this->go->execute();
-
-        // Когда будет рабочий JSON
-        //return json_decode($this->go->execute());
     }
 
     /*
