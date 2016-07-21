@@ -11,5 +11,9 @@
     require_once 'investorClass.php';
     $params = array($host, $user, $password, $database);
     $investor = new investorClass($params);
-    echo($investor->showInvestorsForVisitors());    
+try {
+    echo($investor->showInvestorsForVisitors());
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 ?>
