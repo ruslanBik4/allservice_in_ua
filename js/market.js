@@ -138,8 +138,6 @@ function ShowOknoAndExpandParents( this_element ) {
 	ShowOkno( this_element.dataset.href, this_element.title, this_element );
 	return ExpandParents( this_element );
 }
-
-
 // подключение редактора
 function InitEditorMemo(this_id) {
 	if ( editor ) 
