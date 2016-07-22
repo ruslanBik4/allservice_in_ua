@@ -21,7 +21,13 @@ class GoBridge
             throw new Exception($exception);
         }
 
-        $this->go_file .= './' . $go_file;
+        $osFlag = '';
+
+        if (!preg_match_all('/windows/i', $_SERVER['HTTP_USER_AGENT'])) {
+            $osFlag = './';
+        }
+
+        $this->go_file .= $osFlag . $go_file;
     }
 
     /*
