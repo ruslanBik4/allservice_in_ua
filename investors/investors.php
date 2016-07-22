@@ -1,5 +1,5 @@
 <?php
-$_REQUEST['admin'] = 1;
+//$_REQUEST['admin'] = 1;
 if (isset($_REQUEST['admin'])) {
     $random = rand();
     echo <<<END
