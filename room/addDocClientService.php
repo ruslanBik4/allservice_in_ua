@@ -8,6 +8,11 @@
 require_once '../autoload.php';
 
 function insertField(array $fieldsPrams){
+    
+    
+    if ($fieldsPrams['COLUMN_NAME'] === 'id')
+       return '';
+       
     $type = $fieldsPrams['DATA_TYPE'];
     switch ($type){
         case 'varchar':
@@ -32,9 +37,8 @@ function insertField(array $fieldsPrams){
 
         $fieldTitle = ($fieldsPrams['TITLE'] ? : $fieldsPrams['COLUMN_NAME']);
         
-        return "<label>{$fieldTitle}</label><select name={$fieldName}> <option value=0> Новый </option> <option> Чуго-то есть</option> </select><br>";
+        $result = 'Поля из ' . $table1. ': ' . "<label>{$fieldTitle}</label><select name={$fieldName} onchange='alert( \"div.$table1.show() \")'> <option value=0 > Новый </option> <option selected > Чуго-то есть</option> </select><div id='$table1'> ";
        
-        $result = 'Поля из ' . $table1. ': ';
         $arr = $data->getTable( $table1 );
         foreach ($arr  as $value)
             if(is_array($value)) {
@@ -42,6 +46,8 @@ function insertField(array $fieldsPrams){
             }
             else
                echo $value;
+               
+               $result .= '<div>';
     }
     catch( Exception $e) {
         echo $e->GetMessage();
