@@ -21,21 +21,26 @@ function insertField(array $fieldsPrams){
             break;
     }
     if(strpos($fieldsPrams['COLUMN_NAME'], 'id_')){
-        insertField($array )
-    };
-    $fieldName = $fieldsPrams['COLUMN_NAME'];
-    $fieldTitle = ($fieldsPrams['TITLE'])? $fieldsPrams['TITLE']: $fieldsPrams['COLUMN_COMMENT'];
-    $fieldValue = $fieldsPrams['COLUMN_DEFAULT'];
-    $result = "<label>{$fieldTitle}</label><br><input type={$fieldType} name={$fieldName} value={$fieldValue}><br>";
+        global $data;
+        
+        foreach ( $data->getTable( substr( $fieldsPrams['COLUMN_NAME'], 4) ) as $param)
+            insertField( $param);
+    }
+    else {
+    
+        $fieldName = $fieldsPrams['COLUMN_NAME'];
+        $fieldTitle = ($fieldsPrams['TITLE']) ? : ($fieldsPrams['COLUMN_COMMENT'] ? : $fieldsPrams['COLUMN_NAME']);
+        $fieldValue = $fieldsPrams['COLUMN_DEFAULT'];
+        $result = "<label>{$fieldTitle}</label><br><input type={$fieldType} name={$fieldName} value={$fieldValue}><br>";
+    }
     return $result;
 }
 
 // TITLE - в лейбр если есть
 // Если TITLE пустой, то в лэйбл COLUMN_COMMENT
 
-$data = new FieldsInfoRepository('get_fields_info.exe');
-//$param = 'doc_clients_services_parameters';
-$param = 'category';
+$data = new FieldsInfoRepository();
+$param = 'doc_clients_services_parameters';
 $all = $data->getAll(); // Информация о всех таблицах (временно не работает (пока приходит неправильный JSON))
 $table = $data->getTable($param);
 echo '<pre>';
