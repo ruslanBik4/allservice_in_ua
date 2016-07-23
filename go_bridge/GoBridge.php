@@ -35,6 +35,8 @@ class GoBridge
      */
     public function execute($command = null)
     {
+        $this->output = [];
+
         $this->setCommand($command);
 
         exec($this->command, $this->output);
