@@ -34,13 +34,10 @@ func main () {
             
          fmt.Printf( "%s, ", val  )
         } 
-        type rowScan interface {
-            sql.Scanner
-//             row_lines [] string
-        }
+        fmt.Println()
         
-        var row [] interface {}
-//         row := make([]string, len(columns))
+//         var row [] interface {}
+        row := make([] interface {}, len(columns))
 
     for rows.Next() {
         
@@ -51,11 +48,11 @@ func main () {
             
 //              rows.Scan(&row[key])
              
-        fmt.Printf( "%+v, %s", val, key  )
+        fmt.Printf( "%+v, %v", val, key  )
            
         }
         
-         fmt.Println()
+         fmt.Printf("%+v", row)
 
     }
 }

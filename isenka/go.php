@@ -5,11 +5,14 @@
     $params = "./";
    foreach($_REQUEST as $key => $value) {
      
-     if ($key == 'program') {
-        $params .= $value; 
-     }  
-     else {
-         $params .= ' ' . escapeshellarg($value);       
+     switch ($key) {
+         
+        case 'program': 
+            $params .= $value; 
+         case 'PHPSESSID':
+           continue;
+       default: 
+         $params .= " $key " . escapeshellarg($value);       
          
      }
    }
