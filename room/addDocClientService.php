@@ -21,14 +21,20 @@ function insertField(array $fieldsPrams){
             break;
     }
     
+        $fieldName = $fieldsPrams['COLUMN_NAME'];
+
     if(strpos($fieldsPrams['COLUMN_NAME'], 'id_') !== FALSE)
     try {
         
         global $data;
         
         $table1 = substr( $fieldsPrams['COLUMN_NAME'], 3);
+
+        $fieldTitle = ($fieldsPrams['TITLE'] ? : $fieldsPrams['COLUMN_NAME']);
+        
+        return "<label>{$fieldTitle}</label><select name={$fieldName}> <option value=0> Новый </option> <option> Чуго-то есть</option> </select><br>";
        
-        $result = '';
+        $result = 'Поля из ' . $table1. ': ';
         $arr = $data->getTable( $table1 );
         foreach ($arr  as $value)
             if(is_array($value)) {
@@ -42,7 +48,6 @@ function insertField(array $fieldsPrams){
     }
     else {
     
-        $fieldName = $fieldsPrams['COLUMN_NAME'];
         $fieldTitle = ($fieldsPrams['TITLE'] ? : ($fieldsPrams['COLUMN_COMMENT'] ? : $fieldsPrams['COLUMN_NAME']) );
         $fieldValue = $fieldsPrams['COLUMN_DEFAULT'];
         $result = "<label>{$fieldTitle}</label><br><input type={$fieldType} name={$fieldName} value={$fieldValue}><br>";
