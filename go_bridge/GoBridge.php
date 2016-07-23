@@ -47,8 +47,9 @@ class GoBridge
      */
     protected function setCommand($command = null)
     {
+        $this->command = $this->go_file;
+
         if (!$command) {
-            $this->command = $this->go_file;
             return null;
         }
 
