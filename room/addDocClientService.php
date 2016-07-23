@@ -20,40 +20,57 @@ function insertField(array $fieldsPrams){
             $fieldType = 'checkbox';
             break;
     }
-    if(strpos($fieldsPrams['COLUMN_NAME'], 'id_')){
+    
+    if(strpos($fieldsPrams['COLUMN_NAME'], 'id_') !== FALSE)
+    try {
+        
         global $data;
         
-        foreach ( $data->getTable( substr( $fieldsPrams['COLUMN_NAME'], 4) ) as $param)
-            insertField( $param);
+        $table1 = substr( $fieldsPrams['COLUMN_NAME'], 3);
+       
+        $result = '';
+        $arr = $data->getTable( $table1 );
+        foreach ($arr  as $value)
+            if(is_array($value)) {
+                $result .= insertField( $value );
+            }
+            else
+               echo $value;
+    }
+    catch( Exception $e) {
+        echo $e->GetMessage();
     }
     else {
     
         $fieldName = $fieldsPrams['COLUMN_NAME'];
-        $fieldTitle = ($fieldsPrams['TITLE']) ? : ($fieldsPrams['COLUMN_COMMENT'] ? : $fieldsPrams['COLUMN_NAME']);
+        $fieldTitle = ($fieldsPrams['TITLE'] ? : ($fieldsPrams['COLUMN_COMMENT'] ? : $fieldsPrams['COLUMN_NAME']) );
         $fieldValue = $fieldsPrams['COLUMN_DEFAULT'];
         $result = "<label>{$fieldTitle}</label><br><input type={$fieldType} name={$fieldName} value={$fieldValue}><br>";
     }
+    
     return $result;
 }
 
 // TITLE - в лейбр если есть
 // Если TITLE пустой, то в лэйбл COLUMN_COMMENT
 
-$data = new FieldsInfoRepository('get_fields_info_windows.exe');
-
-
+$data = new FieldsInfoRepository();
 $param = 'doc_clients_services_parameters';
-$all = $data->getAll(); // Информация о всех таблицах (временно не работает (пока приходит неправильный JSON))
 $table = $data->getTable($param);
 echo '<pre>';
 //var_dump($table);
 echo '</pre>';
 $print = '<form>';
+try
+{
 foreach ($table as $value){
     if(!is_array($value)) continue;
     $print.= insertField($value);
 }
 $print.='</form>';
 echo $print;
-
+}
+catch(Exception $e) {
+    echo $e->GetMessage();
+}
 
