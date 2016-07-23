@@ -39,7 +39,7 @@ function insertField(array $fieldsPrams){
 // TITLE - в лейбр если есть
 // Если TITLE пустой, то в лэйбл COLUMN_COMMENT
 
-$data = new FieldsInfoRepository();
+$data = new FieldsInfoRepository('get_fields_info_windows.exe');
 $param = 'doc_clients_services_parameters';
 $all = $data->getAll(); // Информация о всех таблицах (временно не работает (пока приходит неправильный JSON))
 $table = $data->getTable($param);

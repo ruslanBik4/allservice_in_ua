@@ -6,7 +6,7 @@ class FieldsInfoRepository
     /* @var GoBridge */
     private $go;
 
-    public function __construct($go_file = '../get_fields_info')
+    public function __construct($go_file = '../isenka/get_fields_info_windows.exe')
     {
         $this->go = new GoBridge($go_file);
     }
