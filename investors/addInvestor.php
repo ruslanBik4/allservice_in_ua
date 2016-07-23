@@ -1,6 +1,6 @@
 <?php
 require_once 'connectionData.php';
-require_once 'investorClass.php';
+require_once '../autoload.php';
 $params = array($host, $user, $password, $database);
 $investor = new investorClass($params);
 $referAfterError = "<meta charset='utf-8'><br><br><a href='investors.php'><button>Перейти на страницу заполнения формы</button></a><br>";

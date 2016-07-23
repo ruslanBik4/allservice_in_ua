@@ -1,5 +1,6 @@
 <?php
-//$_REQUEST['admin'] = 1;
+$_REQUEST['admin'] = 1;
+require_once '../autoload.php';
 if (isset($_REQUEST['admin'])) {
     $random = rand();
     echo <<<END

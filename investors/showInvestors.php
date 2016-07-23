@@ -6,9 +6,8 @@ header("Cache-control: max-age=1800");
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
 <?php
+require_once '../autoload.php';
 require_once 'connectionData.php';
-require_once 'investorClass.php';
-
 
 $params = array($host, $user, $password, $database);
 $investor = new investorClass($params);

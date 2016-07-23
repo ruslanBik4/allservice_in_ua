@@ -1,6 +1,6 @@
 <?php
     $ROOT_DIR = __DIR__ ;
-       
+
     function __autoload($className)
     {
        global $ROOT_DIR;
@@ -16,9 +16,10 @@
            'isenka',
            'isenka/bridge',
            'investors',
+           'go_bridge'
        ];
        
-        
+
        foreach($pathInclude as $path) {
            
           $nameFile = "$ROOT_DIR/$path/$className.php";

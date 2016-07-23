@@ -8,7 +8,7 @@
  * Time: 19:04
  */
     require_once 'connectionData.php';
-    require_once 'investorClass.php';
+    require_once '../autoload.php';;
     $params = array($host, $user, $password, $database);
     $investor = new investorClass($params);
 try {
