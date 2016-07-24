@@ -17,6 +17,7 @@
            'isenka/bridge',
            'investors',
            'go_bridge/',
+           'room'
        ];
        
 

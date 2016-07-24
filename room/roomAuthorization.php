@@ -1,4 +1,3 @@
-<meta charset="utf-8">
 <?php
 /**
  * Created by PhpStorm.
@@ -7,12 +6,8 @@
  * Time: 22:43
  */
 require_once '../autoload.php';
+echo "Для входа в личный кабинет заполните форму:<br><br>";
+require_once '../autoload.php';
+$table = new roomClass('get_fields_info_windows.exe', 'ref_clients');
+echo ($table->formCreation());
 
-echo "Для входа в личный кабинет заполните форму:<br>";
-$data = new FieldsInfoRepository('get_fields_info_windows.exe');
-$param = 'ref_clients';
-$table = $data->getTable($param);
-//
-echo '<pre>';
-var_dump($table);
-echo '</pre>';
