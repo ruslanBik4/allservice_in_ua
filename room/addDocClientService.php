@@ -7,14 +7,16 @@
 */
 require_once '../autoload.php';
 
-function insertField(array $fieldsPrams){
+function insertField(array $fieldsParams){
     
     
-    if ($fieldsPrams['COLUMN_NAME'] === 'id')
+    if ($fieldsParams['COLUMN_NAME'] === 'id')
        return '';
        
-    $type = $fieldsPrams['DATA_TYPE'];
+    $type = $fieldsParams['DATA_TYPE'];
+    $fieldType = '';
     switch ($type){
+        case 'text':
         case 'varchar':
             $fieldType = 'text';
             break;
@@ -26,18 +28,22 @@ function insertField(array $fieldsPrams){
             break;
     }
     
-        $fieldName = $fieldsPrams['COLUMN_NAME'];
+        $fieldName = $fieldsParams['COLUMN_NAME'];
 
-    if(strpos($fieldsPrams['COLUMN_NAME'], 'id_') !== FALSE)
+    if(strpos($fieldsParams['COLUMN_NAME'], 'id_') !== FALSE)
     try {
         
         global $data;
         
-        $table1 = substr( $fieldsPrams['COLUMN_NAME'], 3);
+        $table1 = substr( $fieldsParams['COLUMN_NAME'], 3);
 
-        $fieldTitle = ($fieldsPrams['TITLE'] ? : $fieldsPrams['COLUMN_NAME']);
+        $fieldTitle = ($fieldsParams['TITLE'] ? : $fieldsParams['COLUMN_NAME']);
         
-        $result = 'Поля из ' . $table1. ': ' . "<label>{$fieldTitle}</label><select name={$fieldName} onchange='alert( \"div.$table1.show() \")'> <option value=0 > Новый </option> <option selected > Чуго-то есть</option> </select><div id='$table1'> ";
+        $result = 'Поля из ' . $table1. ': ' . "<label>{$fieldTitle}</label>
+        <select name={$fieldName} onchange='alert( \"div.$table1.show() \")'> 
+        <option value=0 > Новый </option> 
+        <option selected > Чуго-то есть</option> 
+        </select><div id='$table1'> ";
        
         $arr = $data->getTable( $table1 );
         foreach ($arr  as $value)
@@ -54,20 +60,20 @@ function insertField(array $fieldsPrams){
     }
     else {
     
-        $fieldTitle = ($fieldsPrams['TITLE'] ? : ($fieldsPrams['COLUMN_COMMENT'] ? : $fieldsPrams['COLUMN_NAME']) );
-        $fieldValue = $fieldsPrams['COLUMN_DEFAULT'];
+        $fieldTitle = ($fieldsParams['TITLE'] ? : ($fieldsParams['COLUMN_COMMENT'] ? : $fieldsParams['COLUMN_NAME']) );
+        $fieldValue = $fieldsParams['COLUMN_DEFAULT'];
         $result = "<label>{$fieldTitle}</label><br><input type={$fieldType} name={$fieldName} value={$fieldValue}><br>";
     }
-    
     return $result;
 }
 
 // TITLE - в лейбр если есть
 // Если TITLE пустой, то в лэйбл COLUMN_COMMENT
-
+//
 $data = new FieldsInfoRepository('get_fields_info_windows.exe');
 $param = 'doc_clients_services_parameters';
 $table = $data->getTable($param);
+//
 echo '<pre>';
 //var_dump($table);
 echo '</pre>';
