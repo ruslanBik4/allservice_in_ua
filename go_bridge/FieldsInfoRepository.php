@@ -23,15 +23,11 @@ class FieldsInfoRepository extends AbstractGoClient
         return $this->go->execute($tablename);
     }
 
-
-    protected function defaultPath()
+    /**
+     * @return string
+     */
+    protected function defaultFile()
     {
-        $filePath = dirname(__DIR__) . '/isenka/get_fields_info';
-
-        if (!$this->isUnix()) {
-            $filePath .= '.exe';
-        }
-
-        return $filePath;
+        return 'get_fields_info';
     }
 }

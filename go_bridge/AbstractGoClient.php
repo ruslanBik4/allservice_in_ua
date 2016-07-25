@@ -8,16 +8,24 @@ abstract class AbstractGoClient
     public function __construct($filePath = null)
     {
         if (!$filePath) {
-            $filePath = $this->defaultPath($filePath);
+            $filePath = dirname(__DIR__) . '/isenka/';
+            $filePath .= $this->defaultFile();
+
+            if (!$this->isUnix()) {
+                $filePath .= '.exe';
+            }
         }
 
         $this->go = new GoBridge($filePath);
     }
 
     /**
-     * @return string $filePath
+     * @return string
      */
-    protected function defaultPath() {}
+    protected function defaultFile()
+    {
+        return '';
+    }
 
     /**
      * @return bool
