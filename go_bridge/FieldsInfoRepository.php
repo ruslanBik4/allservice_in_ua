@@ -1,29 +1,37 @@
 <?php
-require_once 'GoBridge.php';
 
-class FieldsInfoRepository
+class FieldsInfoRepository extends AbstractGoClient
 {
-    /* @var GoBridge */
-    private $go;
-
-    public function __construct($go_file = '../isenka/get_fields_info_windows.exe')
-    {
-        $this->go = new GoBridge($go_file);
-    }
-
-    /*
-     * Вывести информацию о всех таблицах.
+    /**
+     * Показать информацию о всех таблицах.
+     *
+     * @return array
      */
     public function getAll()
     {
         return $this->go->execute();
     }
 
-    /*
-     * Вывести таблицу по названию
+    /**
+     * Показать информацию о выбранной таблице.
+     *
+     * @param string $tablename
+     * @return array
      */
     public function getTable($tablename)
     {
         return $this->go->execute($tablename);
+    }
+
+
+    protected function defaultPath()
+    {
+        $filePath = dirname(__DIR__) . '/isenka/get_fields_info';
+
+        if (!$this->isUnix()) {
+            $filePath .= '.exe';
+        }
+
+        return $filePath;
     }
 }

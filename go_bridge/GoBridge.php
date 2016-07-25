@@ -2,36 +2,36 @@
 
 class GoBridge
 {
+    /* @var string */
     protected $go_file;
-    protected $command;
-    protected $output;
 
-    /*
+    /* @var string */
+    protected $command;
+
+    /* @var array */
+    protected $output = [];
+
+    /**
      * В конструктор передается файл Go
      * Если файл не найден, будет выброшено исключение
+     *
+     * @param string $go_file
+     * @throws Exception
      */
     public function __construct($go_file)
     {
         if (!file_exists($go_file)) {
-            $exception = "Файл '{$go_file}' не найден.";
-
-            // Временное решение, т.к. в настройках Allservice не отображаются исключения
-            echo $exception;
-
-            throw new Exception($exception);
+            throw new Exception("File '{$go_file}' was not found.");
         }
 
-        $osFlag = '';
-
-        if (!preg_match_all('/windows/i', $_SERVER['HTTP_USER_AGENT'])) {
-            $osFlag = './';
-        }
-
-        $this->go_file .= $osFlag . $go_file;
+        $this->go_file .= $go_file;
     }
 
-    /*
+    /**
      * Выполнить запрос к файлу Go
+     *
+     * @param string|array|null $command
+     * @return array
      */
     public function execute($command = null)
     {
@@ -39,17 +39,18 @@ class GoBridge
 
         $this->setCommand($command);
 
-        exec($this->command, $this->output);
+        exec($this->go_file . $this->command, $this->output);
 
-        return $this->prepareOutput();
+        return $this->arrayOutput();
     }
 
-    /*
-     * Задать комманду
+    /**
+     * @param string $command
+     * @return null
      */
     protected function setCommand($command = null)
     {
-        $this->command = $this->go_file;
+        $this->command = '';
 
         if (!$command) {
             return null;
@@ -64,17 +65,17 @@ class GoBridge
         }
     }
 
-    /*
-     * Конвертировать JSON и вернуть в виде массива
+    /**
+     * @return array
      */
-    protected function prepareOutput()
+    protected function arrayOutput()
     {
-        $toReturn = [];
+        $array = [];
 
         foreach ($this->output as $value) {
-            $toReturn[] = json_decode($value, true);
+            $array[] = json_decode($value, true);
         }
 
-        return $toReturn;
+        return $array;
     }
 }

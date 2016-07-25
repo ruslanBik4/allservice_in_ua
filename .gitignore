@@ -1,4 +1,16 @@
+# Файл PhpStorm
 .idea
+
+# Бинарники исенки
+isenka/get_fields_info.exe
+isenka/get_fields_info
+isenka/read_category.exe
+isenka/read_category
+isenka/query.exe
+isenka/query
+
+# Папка для тестов
+tests
+
+# ???
 adodb/.htaccess
-room/get_fields_info_windows.exe
-isenka/get_fields_info_windows.exe
