@@ -45,6 +45,18 @@ class GoBridge
     }
 
     /**
+     * Выполнить запрос к файлу Go через метод POST
+     *
+     * @return array
+     */
+    public function executePost()
+    {
+        if (isset($_POST['command'])) {
+            return $this->execute($_POST['command']);
+        }
+    }
+
+    /**
      * @param string $command
      * @return null
      */
