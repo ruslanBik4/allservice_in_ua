@@ -1,6 +1,6 @@
 <?php
 
-abstract class AbstractGoClient
+abstract class BridgeClient
 {
     /* @var GoBridge */
     protected $go;

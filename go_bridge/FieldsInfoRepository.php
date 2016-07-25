@@ -1,6 +1,6 @@
 <?php
 
-class FieldsInfoRepository extends AbstractGoClient
+class FieldsInfoRepository extends BridgeClient
 {
     /**
      * Показать информацию о всех таблицах.
