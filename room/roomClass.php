@@ -12,25 +12,24 @@ class roomClass
     public $data;
     public $name;
 
-    public function __construct($pathExe, $tableName = '')
+    public function __construct($tableName = '')
     {
         $this->name = $tableName;
-        $this->data = new FieldsInfoRepository($pathExe);
+        $this->data = new FieldsInfoRepository();
         $this->tableColumn = $this->data->getTable($tableName);
     }
 
     public function formCreation(){
-        $print = '<form>';
+        $print = '';
         try
         {
             foreach ($this->tableColumn as $value){
                 if(!is_array($value)) continue;
                 $print.= $this->insertField($value);
             }
-            if($this->name == 'ref_clients'){
-                $print.= $this->authorizationBySms();
-            }
-            $print.='</form>';
+//            if($this->name == 'ref_clients'){
+//                $print.= $this->authorizationBySms();
+//            }
             return $print;
         }
         catch(Exception $e) {
@@ -38,10 +37,10 @@ class roomClass
         }
     }
 
-    private function authorizationBySms(){
-        $result = "<input type='button' value='Вход с помощью смс'>";
-        return $result;
-    }
+//    private function authorizationBySms(){
+//        $result = "<input type='button' value='Вход с помощью смс'>";
+//        return $result;
+//    }
     
     public function insertField(array $fieldsParams){
 
@@ -77,7 +76,7 @@ class roomClass
                 $result = 'Поля из ' . $table1. ': ' . "<label>{$fieldTitle}</label>
         <select name={$fieldName} onchange='alert( \"div.$table1.show() \")'> 
         <option value=0 > Новый </option> 
-        <option selected > Чуго-то есть</option> 
+        <option selected > Что-то есть</option> 
         </select><div id='$table1'> ";
 
                 $arr = $this->data->getTable( $table1 );
