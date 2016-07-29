@@ -19,9 +19,10 @@ class FormCreatorClass
 
     /**
      * roomClass constructor.
-     * Принимает наименование таблицы. Если наименование не передано, значит работаем со всеми таблицами
+     * Принимает наименование таблицы.
      * Создаем экземляр класса FieldsInfoRepository
-     * Вызываем метод FieldsInfoRepository getTable для получения выбранной таблицы, записываем в свойство tableColumn
+     * Вызываем метод FieldsInfoRepository getTable для получения массивом
+     * всех параметров таблицы, записываем в свойство tableColumn
      * @param string $tableName
      */
     public function __construct($tableName = '')
