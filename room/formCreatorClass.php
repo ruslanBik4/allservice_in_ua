@@ -43,9 +43,13 @@ class FormCreatorClass
         $print = "<form method='post' action='{$obrabotchik}'>";
         try
         {
-            foreach ($this->tableColumn as $value){
+            foreach ($this->tableColumn as $key => $value){
                 if(!is_array($value)) continue;
-                $print.= $this->insertField($value);
+                    foreach ($value as $x => $y){
+                        if($x == "COLUMN_NAME"){
+                            $print.=$this->insertField($y);
+                        }
+                    }
             }
             $print.= '<input type="submit">';
             $print.= '</form>';
@@ -54,16 +58,54 @@ class FormCreatorClass
         catch(Exception $e) {
             echo $e->GetMessage();
         }
+
+
+
+//      Старый рабочий вариант
+//        try
+//        {
+//            foreach ($this->tableColumn as $value){
+//                if(!is_array($value)) continue;
+//                $print.= $this->insertField2($value);
+//            }
+//            $print.= '<input type="submit">';
+//            $print.= '</form>';
+//            return $print;
+//        }
+//        catch(Exception $e) {
+//            echo $e->GetMessage();
+//        }
     }
 
+
     /**
-     * Функция принимает массивом все параметры одного поля,
-     * формирует label, input и возвращет в виде строки
+     * Возращает номер поля (номер массива) по заданному имени поля
+     * @param $columnName
+     * @return int|string
+     */
+    public function getArrayFromColumnName($columnName){
+        foreach ($this->tableColumn as $key=>$value){
+            if(is_array($value))
+            {
+                if(array_search($columnName, $value)){
+                    return $key;
+                }
+            }
+        }
+        return 'Такого имени поля в таблице не существует';
+    }
+
+
+    /**
+     * Функция принимает COLUMN_NAME, ищет по нему номер
+     * массива (через функцию insertField). Вытаскиваем нужный массив по номеру.
+     * В нем и будут все параметры поля. Формируем label, input и возвращет в виде строки
      * @param array $fieldsParams
      * @return string
      */
-    public function insertField(array $fieldsParams){
-
+    public function insertField($fieldName){
+        $nomerMassiva = $this->getArrayFromColumnName($fieldName);
+        $fieldsParams = $this->tableColumn[$nomerMassiva];
         if ($fieldsParams['COLUMN_NAME'] === 'id')
             return '';
 
@@ -90,13 +132,29 @@ class FormCreatorClass
 //        <option selected > Что-то есть</option>
 //        </select><div id='$table1'> ";
 
-                $arr = $this->data->getTable( $table1 );
-                foreach ($arr  as $value)
-                    if(is_array($value)) {
-                        $result .= $this->insertField( $value );
-                    }
-                    else
-                        echo $value;
+                // !!!Рекурсия не работает, так как нужно переопраделять $tableColumn
+//                $arr = $this->data->getTable($table1);
+//                echo '<pre>';
+//                var_dump($arr);
+//                echo '</pre>';
+//                foreach ($arr as $key => $value){
+//                    if(!is_array($value)) continue;
+//                    foreach ($value as $x => $y){
+//                        if($x == "COLUMN_NAME"){
+//                            $result.=$this->insertField($y);
+//                        }
+//                    }
+//                }
+
+
+
+//                foreach ($arr  as $value)
+//                    if(is_array($value)) {
+//                        $result .= $this->insertField( $value );
+//                    }
+//                    else
+//                        echo $value;
+
 //     Имеет смысл при задании категорий
 //                $result .= '<div>';
             }
@@ -111,7 +169,6 @@ class FormCreatorClass
         }
         return $result;
     }
-    
 }
 
 
@@ -120,19 +177,16 @@ class FormCreatorClass
 
 
 
-// Временное пристанище старого (рабочего и не рабочего) кода
 
-// Старый вариант рабочий с использованием case
-//        switch ($type){
-//            case 'text':
-//            case 'char':
-//            case 'varchar':
-//                $fieldType = 'text';
-//                break;
-//            case 'int':
-//                $fieldType = 'number';
-//                break;
-//            case 'tinyint':
-//                $fieldType = 'checkbox';
-//                break;
-//        }
+
+
+
+
+
+
+
+
+
+
+
+
