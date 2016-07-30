@@ -16,13 +16,13 @@ class Query extends BridgeClient
 
         return $this->go->execute($this->sql);
     }
-
+    /*
     public function select($select, $from, $where = null, $value = null) {
         $this->sql = "SELECT {$select} FROM {$from}";
 
         if ($where) {
             if (!$value) {
-                throw new Exception("No value was given for WHERE condition.");
+                throw new Exception("No  value was given for WHERE condition.");
             }
 
             $this->sql .= " WHERE {$where} = '{$value}'";
@@ -52,7 +52,7 @@ class Query extends BridgeClient
         $this->sql = "SELECT {$select} FROM {$from} {$where}";
 
         return escapeshellarg($this->sql);
-    }
+    }*/
 
     /**
      * @return string
