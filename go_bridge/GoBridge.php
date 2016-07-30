@@ -27,6 +27,11 @@ class GoBridge
         $this->go_file .= $go_file;
     }
 
+    public function showLastCommand()
+    {
+        return $this->command;
+    }
+
     /**
      * Выполнить запрос к файлу Go
      *
