@@ -16,6 +16,17 @@ class Query extends BridgeClient
 
         return $this->go->execute($this->sql);
     }
+    
+    public static function sqlCurl($sql = null)
+    {
+        $url = "http://allservice.in.ua/isenka/query.php?call={$sql}";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+        $result =  curl_exec($ch);
+        return $result;
+    }
+    
     /*
     public function select($select, $from, $where = null, $value = null) {
         $this->sql = "SELECT {$select} FROM {$from}";
