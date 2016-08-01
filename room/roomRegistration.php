@@ -6,15 +6,14 @@
  * Time: 22:43
  */
 require_once '../autoload.php';
+
+
 echo "Для регистрации заполните форму:<br><br>";
-$table = new FormCreatorClass('ref_users');
-
-echo ($table->formCreation('roomObrabotchik.php'));
-
-
 $query = "input_form_info('client_registration')";
-echo '<pre>';
 $json = Query::sqlCurl($query);
-$json = json_decode($json);
+$form = new FormCreatorFromJsonClass($json);
+echo ($form->formCreation('roomObrabotchik.php'));
 
-print_r($json);
+// Старая форма рабочая
+//$table = new FormCreatorClass('ref_users');
+//echo ($table->formCreation('roomObrabotchik.php'));

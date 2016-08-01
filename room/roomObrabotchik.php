@@ -13,14 +13,18 @@ require_once '../autoload.php';
 $params = array($host, $user, $password, $database);
 $investor = new investorClass($params);
 
-foreach ($_POST as $key => $value){
-    $_POST[$key] = $investor->sanitizeString($_POST[$key]);
-}
+echo '<pre>';
+var_dump($_POST);
+echo '</pre>';
 
 $tableName = array_shift($_POST);
 
+var_dump($tableName);
+
 $table = new FormCreatorClass($tableName);
 $proverka = $table->sverka($_POST);
+
+
 switch($proverka){
     case true:
         echo 'Массив POST прошел проверку и может быть обработан';
@@ -28,5 +32,34 @@ switch($proverka){
     case false:
         echo 'Массив POST не прошел проверку';;
 }
+
+
+
+
+
+
+
+
+
+
+
+// Старый рабочий вариант
+//foreach ($_POST as $key => $value){
+//    $_POST[$key] = $investor->sanitizeString($_POST[$key]);
+//}
+//
+//$tableName = array_shift($_POST);
+//
+//var_dump($tableName);
+//
+//$table = new FormCreatorClass($tableName);
+//$proverka = $table->sverka($_POST);
+//switch($proverka){
+//    case true:
+//        echo 'Массив POST прошел проверку и может быть обработан';
+//        break;
+//    case false:
+//        echo 'Массив POST не прошел проверку';;
+//}
 
 
