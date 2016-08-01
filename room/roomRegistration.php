@@ -8,4 +8,5 @@
 require_once '../autoload.php';
 echo "Для регистрации заполните форму:<br><br>";
 $table = new FormCreatorClass('ref_users');
+
 echo ($table->formCreation('roomObrabotchik.php'));
