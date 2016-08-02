@@ -144,7 +144,7 @@ class Auth_Container_ADOdb extends Auth_Container
      * After that the query is passed to the database.
      *
      * @access public
-     * @param  string Query string
+     * @param  string QueryOLD string
      * @return mixed  a DB_result object or DB_OK on success, a DB
      *                or PEAR error on failure
      */

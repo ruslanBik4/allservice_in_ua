@@ -2,97 +2,93 @@
 
 class GoBridge
 {
-    /* @var string */
-    protected $go_file;
-
-    /* @var string */
-    protected $command;
-
-    /* @var array */
-    protected $output = [];
+    /**
+     * @var string
+     */
+    protected $url = 'http://allservice.in.ua/isenka/';
 
     /**
-     * В конструктор передается файл Go
-     * Если файл не найден, будет выброшено исключение
-     *
-     * @param string $go_file
+     * @var resource
+     */
+    protected $ch;
+
+    /**
+     * @var string
+     */
+    protected $query_string;
+
+    /**
+     * @param string $filename
      * @throws Exception
      */
-    public function __construct($go_file)
+    public function __construct($filename)
     {
-        if (!file_exists($go_file)) {
-            throw new Exception("File '{$go_file}' was not found.");
-        }
+        $this->validate($filename);
 
-        $this->go_file .= $go_file;
-    }
+        $this->url .= $filename . '.php?';
 
-    public function showLastCommand()
-    {
-        return $this->command;
+        $this->ch = curl_init();
+
+        curl_setopt($this->ch, CURLOPT_HTTPGET, true);
+        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
     }
 
     /**
-     * Выполнить запрос к файлу Go
+     * Добавить префикс GET запроса.
      *
-     * @param string|array|null $command
-     * @return array
+     * @param string $key
      */
-    public function execute($command = null)
+    public function setQueryString($key)
     {
-        $this->output = [];
+        $this->validate($key);
 
-        $this->setCommand($command);
-
-        exec($this->go_file . $this->command, $this->output);
-
-        return $this->arrayOutput();
+        $this->query_string = $key . '=';
     }
 
     /**
-     * Выполнить запрос к файлу Go через метод POST
+     * Выполнить запрос.
      *
-     * @return array
-     */
-    public function executePost()
-    {
-        if (isset($_POST['command'])) {
-            return $this->execute($_POST['command']);
-        }
-    }
-
-    /**
      * @param string $command
-     * @return null
+     * @return array
      */
-    protected function setCommand($command = null)
+    public function execute($command)
     {
-        $this->command = '';
+        $url = $this->url . $this->query_string . urlencode($command);
 
-        if (!$command) {
-            return null;
-        }
+        curl_setopt($this->ch, CURLOPT_URL, $url);
 
-        if (is_array($command)) {
-            foreach ($command as $arg) {
-                $this->command .= ' ' . escapeshellarg($arg);
-            }
-        } else {
-            $this->command .= ' ' . escapeshellarg($command);
+        return $this->parseResult(curl_exec($this->ch));
+    }
+
+    /**
+     * Проверить, чтоб значение было строкой состоящей только из букв.
+     *
+     * @param string $input
+     * @throws Exception
+     */
+    protected function validate($input)
+    {
+        if (!preg_match('/^([A-z]+)$/', $input)) {
+            throw new Exception('Неправильный формат имени файла. Можно использовать только буквы.');
         }
     }
 
     /**
-     * @return array
+     * Декодировать результат из JSON'а и вернуть в виде массива.
+     *
+     * @param $result
+     * @return array|mixed
      */
-    protected function arrayOutput()
+    protected function parseResult($result)
     {
-        $array = [];
+        $result = json_decode($result, true);
 
-        foreach ($this->output as $value) {
-            $array[] = json_decode($value, true);
+        if (!empty($result)) {
+            foreach ($result as $res) {
+                $parsed[] = json_decode($res, true);
+            }
         }
 
-        return $array;
+        return $parsed;
     }
 }

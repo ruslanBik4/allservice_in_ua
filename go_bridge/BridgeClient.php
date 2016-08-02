@@ -2,40 +2,21 @@
 
 abstract class BridgeClient
 {
-    /* @var GoBridge */
-    protected $go;
+    /**
+     * @var GoBridge
+     */
+    protected $go_bridge;
 
-    public function __construct($filePath = null)
+    public function __construct()
     {
-        if (!$filePath) {
-            $filePath = dirname(__DIR__) . '/isenka/';
-            $filePath .= $this->defaultFile();
-
-            if (!$this->isUnix()) {
-                $filePath .= '.exe';
-            }
-        }
-
-        $this->go = new GoBridge($filePath);
+        $this->go_bridge = new GoBridge($this->filename());
     }
 
     /**
      * @return string
      */
-    protected function defaultFile()
+    protected function filename()
     {
-        return '';
-    }
-
-    /**
-     * @return bool
-     */
-    protected final function isUnix()
-    {
-        if (!preg_match_all('/windows/i', php_uname())) {
-            return true;
-        }
-
-        return false;
+        // TODO: Вернуть строку с именем файла (query, go и т.п.)
     }
 }

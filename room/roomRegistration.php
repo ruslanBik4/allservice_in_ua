@@ -11,7 +11,7 @@ require_once '../autoload.php';
 echo "Для регистрации заполните форму:<br><br>";
 $query = "input_form_info('client_registration')";
 // Вытаскивает
-$json = Query::sqlCurl($query);
+$json = QueryOLD::sqlCurl($query);
 $form = new formCreatorFromJsonClass($json);
 // Передаем путь к файлу обработчику
 echo ($form->formCreation('roomObrabotchik.php'));

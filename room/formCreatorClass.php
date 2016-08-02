@@ -30,7 +30,7 @@ class formCreatorClass
     public function __construct($tableName = '')
     {
         $this->name = $tableName;
-        $this->data = new FieldsInfoRepository();
+        $this->data = new FieldsInfoRepositoryOLD();
         $this->tableColumn = $this->data->getTable($tableName);
         
     }

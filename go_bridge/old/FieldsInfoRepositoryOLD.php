@@ -1,6 +1,6 @@
 <?php
 
-class FieldsInfoRepository extends BridgeClient
+class FieldsInfoRepositoryOLD extends BridgeClientOLD
 {
     /**
      * Показать информацию о всех таблицах.

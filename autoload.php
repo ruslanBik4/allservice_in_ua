@@ -17,6 +17,7 @@
            'isenka/bridge',
            'investors',
            'go_bridge/',
+           'go_bridge/old', // временно
            'room'
        ];
        
