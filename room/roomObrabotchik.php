@@ -17,21 +17,21 @@ echo '<pre>';
 var_dump($_POST);
 echo '</pre>';
 
-$tableName = array_shift($_POST);
+//$tableName = array_shift($_POST);
+//
+//var_dump($tableName);
 
-var_dump($tableName);
-
-$table = new FormCreatorClass($tableName);
-$proverka = $table->sverka($_POST);
-
-
-switch($proverka){
-    case true:
-        echo 'Массив POST прошел проверку и может быть обработан';
-        break;
-    case false:
-        echo 'Массив POST не прошел проверку';;
-}
+//$table = new FormCreatorClass($tableName);
+//$proverka = $table->sverka($_POST);
+//
+//
+//switch($proverka){
+//    case true:
+//        echo 'Массив POST прошел проверку и может быть обработан';
+//        break;
+//    case false:
+//        echo 'Массив POST не прошел проверку';;
+//}
 
 
 

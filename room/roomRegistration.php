@@ -12,10 +12,10 @@ echo "Для регистрации заполните форму:<br><br>";
 $query = "input_form_info('client_registration')";
 // Вытаскивает
 $json = Query::sqlCurl($query);
-$form = new FormCreatorFromJsonClass($json);
+$form = new formCreatorFromJsonClass($json);
 // Передаем путь к файлу обработчику
 echo ($form->formCreation('roomObrabotchik.php'));
 
 // Старая форма рабочая
-//$table = new FormCreatorClass('ref_users');
+//$table = new formCreatorClass('ref_users');
 //echo ($table->formCreation('roomObrabotchik.php'));

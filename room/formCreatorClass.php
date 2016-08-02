@@ -6,7 +6,7 @@
  * Date: 24.07.2016
  * Time: 23:06
  */
-class FormCreatorClass
+class formCreatorClass
 {
     // имя таблицы переданное пользователем
     public $name;

@@ -6,7 +6,7 @@
  * Date: 01.08.2016
  * Time: 23:13
  */
-class FormCreatorFromJsonClass
+class formCreatorFromJsonClass
 {
     //Весь массив данных декодированный из json
     protected $arrayFromJson;
@@ -22,7 +22,7 @@ class FormCreatorFromJsonClass
     public function __construct(array $array)
     {
         foreach ($array as $key => $value){
-            $array[$key] = json_decode($array[$key], true);
+            $array[$key] = json_decode($value, true);
         }
         $this->arrayFromJson = $array;
     }
@@ -51,40 +51,39 @@ class FormCreatorFromJsonClass
         $array = $this->arrayFromJson;
         // Перебираем данные
         foreach ($array as $key => $value){
-            foreach ($value as $x => $y){
-                switch ($x){
+            foreach ($value as $valueKey => $valueValue){
+                switch ($valueKey){
                     case 'html_name':
                         // Если такое db_field_name ранее встречалось, выходим на уровень первого foreach
-                        if(in_array($y, $this->inputNamesArray))
+                        if(in_array($valueValue, $this->inputNamesArray))
                         {
                             break 3;
                         }
-                        $name = $y;
+                        $name = $valueValue;
                         $this->inputNamesArray[] = $name;
                         break;
                     case 'db_table_name':
-                        $tableName = $y;
+                        $tableName = $valueValue;
                         break;
                     case 'html_class':
-                        $class = $y;
+                        $class = $valueValue;
                         break;
                     case 'html_id':
-                        $id = $y;
+                        $id = $valueValue;
                         break;
                     case 'html_type':
-                        $type = $y;
+                        $type = $valueValue;
                         break;
                     case 'label':
-                        $label = $y;
+                        $label = $valueValue;
                         break;
                 }
             }
             // Создаем скрытый input для хранения названия таблицы
-            $result.= "<input type='hidden' name='tableName[]' value='{$tableName}'><br>";
             // Нужен ли for в label?
             $result.= "<label for='{$id}'>{$label}</label><br>";
             // Главный input
-            $result.= "<input type = '{$type}' name = '{$name}' class = '{$class}' id = '{$id}'><br>";
+            $result.= "<input type = '{$type}' name = '{$tableName}:{$name}' class = '{$class}' id = '{$id}'><br>";
         }
         return $result;
     }
