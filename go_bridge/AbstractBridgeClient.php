@@ -1,6 +1,6 @@
 <?php
 
-abstract class BridgeClient
+abstract class AbstractBridgeClient
 {
     /**
      * @var GoBridge
@@ -15,8 +15,5 @@ abstract class BridgeClient
     /**
      * @return string
      */
-    protected function filename()
-    {
-        // TODO: Вернуть строку с именем файла (query, go и т.п.)
-    }
+    protected abstract function filename();
 }

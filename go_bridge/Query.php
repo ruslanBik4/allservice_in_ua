@@ -1,6 +1,6 @@
 <?php
 
-class Query extends BridgeClient
+class Query extends AbstractBridgeClient
 {
     /**
      * Выполнить люой SQL запрос.
