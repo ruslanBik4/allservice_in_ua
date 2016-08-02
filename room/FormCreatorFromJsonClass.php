@@ -53,7 +53,7 @@ class FormCreatorFromJsonClass
         foreach ($array as $key => $value){
             foreach ($value as $x => $y){
                 switch ($x){
-                    case 'db_field_name':
+                    case 'html_name':
                         // Если такое db_field_name ранее встречалось, выходим на уровень первого foreach
                         if(in_array($y, $this->inputNamesArray))
                         {
