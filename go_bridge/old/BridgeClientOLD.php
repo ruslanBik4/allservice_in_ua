@@ -8,7 +8,7 @@ abstract class BridgeClientOLD
     public function __construct($filePath = null)
     {
         if (!$filePath) {
-            $filePath = dirname(__DIR__) . '/isenka/';
+            $filePath = dirname(dirname(__DIR__)) . '/isenka/';
             $filePath .= $this->defaultFile();
 
             if (!$this->isUnix()) {
