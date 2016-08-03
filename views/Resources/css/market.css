@@ -1,0 +1,886 @@
+/* настройки страницы в целом */
+#container, html, body {
+	font-family: 'Helvetica Neue",Helvetica,Arial,sans-serif';
+/* 	position: relative; */
+	height: 100%;
+    margin: 0;
+}
+#container {
+	overflow-y: hidden;
+}
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+/* для центрирования элементов */
+body {
+}
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+/* 	background: white; */
+}
+header {
+/* 	position: fixed; */
+	top: 0;
+/* 	right: 0; */
+/* 	float: left; */
+	text-align: left;
+/* 	width: 100%; */
+	height: auto;
+	background: white;
+	overflow:visible;
+/* 	margin-left: 230px; */
+}
+#theBreadCrumbs{
+/* 	width:670px;  */
+	min-height:8px; 
+	margin-left:26px; 
+	font: 13px 'Tahoma'; 
+	color:#7F7F7F; 
+	text-align:left;
+}
+/*  табличная часть */
+#content {
+/* 	z-index: 100; */
+/* 	float: left; */
+	width: calc(100% - 230px);
+	height: 100%;
+	font:16px bold Arial;
+  -webkit-align-items: right;  
+  -ms-flex-align: center;  
+  align-items: center;
+/*   display: -webkit-flex; */
+/*   display: flex; */
+  flex-direction: column;
+}
+#pane {
+    	margin-left: 230px;
+
+}
+/*  каталог */
+#left_pane {
+/* 	float: left;  */
+	position: fixed; 
+	height: 98%; 
+	z-index: 10; 
+/* 	width: auto;  */
+	min-width: 230px;
+	margin-left: 0;
+	font-family:  sans-serif;
+overflow-x: hidden;
+}
+#left_pane:hover {
+	overflow-x: visible;
+	width: -webkit-max-content;
+}
+#catalog_pane {
+/* 	left: 0px; */
+	position: static; 
+	height: 98%;
+/* 	float: left; */
+	overflow-x: hidden;
+	overflow-y: scroll;
+	font-family: 'PT Sans', sans-serif;
+}
+#uploadOutput {
+	position: fixed;
+	left: 50;
+	top: 50%;
+	bottom:10;
+	background: red;
+	color: white;
+}
+#goTop{
+	bottom: 10%;
+	right: 2%;
+}
+#divpager {
+/* 	position: relative; */
+	margin-top: 10px;
+	float: left;
+	width: 100%;
+}
+/* для диаграмм */
+.chart_div, .bar_div, .table_div, .colm_div {
+	width: 99%;	
+	min-width: 150px;
+	float: left;
+}
+.combobar_div {
+	width: 98%;
+	height: 90%;
+	min-height: 400px;
+	min-width: 800px;
+}
+.chart_parent {
+	width: 32%;	
+	float: left;
+}
+.chart_parent:hover {
+	overflow: visible;
+}
+.chart_parent:before {
+	content: 'X';
+	position: relative;
+	left: 95%;
+	cursor: pointer;
+}
+/* заголовок сгруппированных столбцов */
+.name_group {
+	width: 100%;
+	text-align: center;
+	border-bottom: inset 1px green;
+	vertical-align: bottom;
+}
+.redlabel {
+	color : red;
+}
+/* для рисования таблиц */
+#table_body {
+	height: calc(100% - 160px);
+/* 	margin-top:50px; */
+	padding-top:5px;
+	overflow-y:scroll;
+	overflow-x:hidden; 
+	background: white;
+/* 	display:table; */
+/* 	z-index: 150; */
+}
+div.thead {
+	overflow-x:visible;
+/* 	overflow-y:auto; */
+	font-family: 'PT Sans', sans-serif;
+	font-size: 14px;
+    display: table-row;
+}
+div.td_right {
+	float:right;
+}
+.tr {
+	float:left;
+	height: auto;
+	overflow-x:visible;
+	background-color: #f1f1f1;
+    vertical-align: middle;
+    display: table-row;
+}
+.tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+.tr:hover {
+    background-color: #f5f5f5;
+}
+div.th {
+/* 	float:left; */
+	word-break: break-word;
+	word-wrap: break-word;
+/* 	text-align: center; */
+/* 	height: auto; */
+	margin: auto;
+/*
+	overflow-x:auto;
+	overflow-y:auto;
+*/
+	max-width:550px;
+	display: table-cell;
+	text-align: center;
+	vertical-align:middle;
+}
+div.td {
+/* 	float: left; */
+	margin: auto;
+	vertical-align:middle;
+	display: table-cell;
+	word-break: break-all;
+	word-wrap: break-word;
+	text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+div.th input, div.td input {
+	max-height: 98%;
+	max-width: 98%;
+	padding: 0;
+	margin: 0;
+/* 	padding-right: 1px; */
+	display: inline-block;
+}
+div.th select, div.td select {
+	width: inherit;
+}
+input[type="file"] {
+	max-width: 99%;
+}
+form.SimpleForm output {
+	display: inline-block;
+}
+/* рисуем дерево-меню с распахиванием */
+ul#tree-menu { 
+	padding:0;
+	margin: 1%;
+	overflow-x: hidden;
+	overflow-y: auto;
+/* 	width: auto; */
+	width: -webkit-max-content;
+	min-width: 230px;
+	height: 98%;
+  transition:all 1s ease-out 2s;
+}
+ul#tree-menu li { 
+	position: static;
+	padding-top:1px;
+/* 	padding-right: 10px; */
+	margin:0;
+	color: black;
+	list-style:none; 
+	max-height:100%;
+/* 	opacity:1; */
+	width: auto;
+	overflow-x: hidden;
+/* 		height: auto; */
+  transition:all 1s ease-out;
+}
+ul#tree-menu li:not(:last-child) {
+  border-bottom: 1px solid #666;
+}
+ul#tree-menu li:hover {
+/* 	opacity: 0.8;  */
+/* overflow-y: auto; */
+/* 	height: 33%; */
+	cursor: pointer;
+/* overflow-x: visible; */
+}
+ul#tree-menu li.expanded {
+/* 	position: absolute; */
+/* 	top:0; */
+/* 	max-height:100%; */
+}
+ul#tree-menu li > div {
+/* 	overflow-y: visible; */
+/* 	height: 0; */
+/* 	min-width: 100%; */
+	z-index: 12;
+	height: 0;
+/* 	padding-left: 10px; */
+	width: 0;
+	overflow-x: visible;
+	position: absolute;
+	left: -9999px;
+  transition:  height 2s linear .2s;
+  transition:  left 1s linear .5s;
+}
+ul#tree-menu li > div:after {
+  display: block;
+  content: '';
+  width: 10px;
+  height: 18px;
+  margin-left: -10px;
+  border-right: 1px solid blue;
+  border-bottom: 1px solid blue;
+  border-radius: 0 0 10px 0;
+}
+/*
+ul#tree-menu li:hover > div:before {
+	width: 20px;
+}
+*/
+ul#tree-menu li:hover > div, ul#tree-menu li.expanded > div {
+/* 	display: block; */
+	height: auto;
+/* 	height: 1px; */
+	width: -webkit-max-content;
+	left: 15px;
+	max-height: calc( 100% - 36px);
+	border: 1px solid blue;
+	border-radius: 44px 0px 37px 0px;
+}
+/* если раскрываем щелчком */
+ul#tree-menu li > div > ul , ul#tree-menu span.collapsible + div { 
+/* 	width: 0; */
+/* 	min-width: 100%; */
+    left: -9999px;
+	height: 0;
+	border-radius: inherit;
+	background-color: white;
+  transition:all 1s ease .3s;
+}
+ul#tree-menu li:hover > div > ul, ul#tree-menu li.expanded > div >ul, ul#tree-menu li.collapsed:hover > div > ul, span.collapsible:hover  + div  {
+	padding:10;
+	margin:0 10px 0 10px; 
+	height: 98%;
+	max-height: 550px;
+	width: -webkit-max-content;
+/* 	margin-left:10px; */
+/* 	min-width: 230px; */
+	overflow-y: auto;
+	overflow-x: hidden;
+/* 	position:  absolute; */
+	left: 5px;
+/* 	width: auto;  */
+/* 	z-index: calc(top); */
+/* 	overflow-y: auto; */
+/* 	margin:0 0 0 1px;  */
+/*   transition:all 1s ease-out 1s; */
+}
+ul#tree-menu a { 
+/* 	padding-left:22px;  */
+	text-align:left; 
+	color: black; 
+	opacity: 1.0;
+	background: left 0px no-repeat; 
+	background-size: contain;
+	text-shadow: 1px 0px 1px white;
+}
+ul#tree-menu a:hover {
+	opacity: 0.8;
+/* 	text-decoration: underline; */
+	cursor: pointer;
+}
+/* значки показа распахивания/сворачивания веток */
+ul#tree-menu li > a:before {
+	content: '⤵️';
+}
+ul#tree-menu li.expanded > a:before, ul#tree-menu li:hover > a:before {
+	content: '';
+}
+ul#tree-menu li.expanded > a:after{
+	content: '⤴️';
+}
+/* для выбранных пунктов из меню */
+ul#tree-menu a.down_button, .down_button, ul#tree-menu li:not(a):hover {
+	color: red;
+	text-shadow: 1px 1px 1px black;
+}
+/*  показ картнки для свернутой веточки дерева */
+ul#tree-menu li.collapsed > span{ background-image: url('http://solution.artel.ws/images/ButtonPlus.png');  }
+/* показ картинки дл яразвернутой веточки */
+ul#tree-menu li.expanded > span, ul#tree-menu >a, ul#tree-menu li:hover > a.collapsed   { background-image: url('http://solution.artel.ws/images/ButtonMinus.png'); }
+
+ul#tree-menu li + form{
+	display:none;
+/* 	position: absolute; */
+/* 	left:-20; */
+	height: auto;
+	margin:0;
+	padding: 0px;
+	background: white;
+    transition:  all 1s ease;
+}
+ul#tree-menu li:hover > form, ul#tree-menu li > form:hover {
+	display:table-cell;
+	opacity: 0.8;
+/* 	position: absolute; */
+}
+/*
+ul#tree-menu li:not(:hover) {
+     -webkit-transition:  all 0.1s ease;
+    -moz-transition:  all 0.1s ease;
+    -o-transition:  all 0.1s ease;
+  transition-delay: 1s;
+}
+*/
+ul#tree-menu li + span.collapsible {
+/* 	display: none;  */
+	height: 0;
+}
+ul#tree-menu li:hover + span.collapsible {
+/* 	display: block;  */
+	height: auto;
+}
+#list-menu {
+	padding:0;
+	margin: 1%;
+	overflow-x: hidden;
+	overflow-y: auto;
+/* 	width: auto; */
+	width: -webkit-max-content;
+	min-width: 230px;
+	height: 98%;
+  transition:all 1s ease-out 2s;
+	
+}
+#cicle-menu {
+	padding:0;
+	margin: 1%;
+	position: relative;
+/*
+	overflow-x: hidden;
+	overflow-y: auto;
+*/
+/* 	width: auto; */
+	width: -webkit-max-content;
+	min-width: 230px;
+/* 	height: 98; */
+  transition:all .3s ease-out .2s;	
+  counter-reset: c_number;
+  background: white;
+}
+#cicle-menu li{
+	position: absolute;
+	padding: 10px;
+	height: 60px;
+	min-width: 110px;
+	top: -250px;
+	width: -webkit-max-content;
+	text-align: center; 
+	counter-increment: c_number;
+	list-style-type: none;
+	z-index: 10;
+	border: 2px blue dotten;
+}
+#cicle-menu li (a,span){
+	width: -webkit-max-content;
+}
+#cicle-menu li:nth-of-type(1) {
+	top: -10px;
+	left: 155px;
+}
+#cicle-menu li:nth-of-type(2), #cicle-menu li:nth-of-type(3){
+	top: 25px;
+	border: 2px blue dotten;
+}	
+#cicle-menu li:nth-of-type(4), #cicle-menu li:nth-of-type(5){
+	top: 125px;
+	border-color: maroon;
+}	
+#cicle-menu li:nth-of-type(6), #cicle-menu li:nth-of-type(7){
+	top: 255px;
+	border-color: magenta;
+}	
+#cicle-menu li:nth-of-type(3), #cicle-menu li:nth-of-type(7){
+	left: 310px;
+/* 	text-align: right;	 */
+}	
+#cicle-menu li:nth-of-type(5){
+	left: 380px;
+/* 	text-align: right;	 */
+}	
+#cicle-menu li:nth-of-type(2), #cicle-menu li:nth-of-type(6){
+	left: 40px;
+/* 	text-align: left; */
+}	
+#cicle-menu li:nth-of-type(4) {
+	left: 0px;
+/* 	text-align: left; */
+}
+/* рисуем круг */
+#cicle-menu li:nth-of-type(2), #cicle-menu li:nth-of-type(7){
+        transform: rotate(-30deg);
+        border-radius: 50px 0px;
+}
+#cicle-menu li:nth-of-type(4) {
+        transform: rotate(-90deg);
+}
+#cicle-menu li:nth-of-type(5){
+        transform: rotate(90deg);
+}
+#cicle-menu li:nth-of-type(3), #cicle-menu li:nth-of-type(6){
+        transform: rotate(30deg);
+}
+#cicle-menu li > div{
+	position: absolute;
+	top: -50px;
+	left: -99999px;
+	background-color: white;
+	z-index: 12;
+	height: 0;
+	width: 0;
+	overflow-x: visible;
+	position: absolute;
+	left: -9999px;
+  transition:  all .2s linear .2s;
+}
+#cicle-menu li:hover {
+    color: red;
+}
+#cicle-menu > li:hover {
+    transform: rotate(0deg);
+}
+#cicle-menu li:hover >div {
+	left: -100px;
+	height: auto;
+	width: -webkit-max-content;
+    transform: rotate(0deg);
+}
+#cicle-menu li:hover >div > ul {
+		background-color: white;
+    transform: rotate(0deg);
+
+}
+#cicle-menu li:hover >div > ul >li {
+		background-color: white;
+	
+}
+#cicle-menu > li:hover ~ li {
+	display: none;
+}
+#cicle-menu li:before{
+/* 	content: counter(c_number); */
+	content: attr(top);
+}
+.pop_menu {
+/* 	display:none; */
+/*   position: absolute; */
+/*   left: -9999px; */
+	float:right;
+	opacity: 0;
+/* 	height: 0; */
+/* 	left: 350px; */
+/* 	top: -10px; */
+/* 	margin:-10px; */
+	padding: 0;
+	z-index: 10;
+  transition:all 1s ease-out 2s;
+     -webkit-transition:  all 0.1s ease;
+    -moz-transition:  all 0.1s ease;
+    -o-transition:  all 0.1s ease;
+}
+ul#tree-menu li:hover > .pop_menu {
+/* 	display:block; */
+/* 	height: auto; */
+     -webkit-transition:  all 1s ease;
+    -moz-transition:  all 1s ease;
+    -o-transition:  all 1s ease;
+	opacity: 1;
+  -moz-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+  -moz-transition: transform 0.4s linear 0s;
+  -ms-transition: transform 0.4s linear 0s;
+  -webkit-transition: transform 0.4s linear 0s;
+  -o-transition: transform 0.4s linear 0s;
+  transition: transform 0.4s linear 0s;
+}
+ul#tree-menu a.a_new_tovar { padding-left:22px; text-align:left; color:#860A32; font:18px bold Arial }
+ul#tree-menu a.a_spec { padding-left:22px; text-align:left; color:#860A32; font:18px bold Arial }
+input:disabled {
+	margin: 0em;
+	font: -webkit-small-control;
+	color: initial;
+	letter-spacing: normal;
+	word-spacing: normal;
+	text-transform: none;
+	text-indent: 0px;
+	text-shadow: none;
+	display: inline-block;
+	text-align: right;
+	background-color: transparent;
+}
+input.col_tovary {
+	width:35px;
+	margin-left: 20px;
+	margin-right:5px;
+	height: 100%;
+	float: right;
+}
+#tableCart td {
+	vertical-align: middle;
+}
+.new_price {
+/* 	color:black;	 */
+	float:right;
+    position: relative;
+    top:-5px; 
+    left: -10px;
+-moz-animation: show_price 10s infinite;-webkit-animation: show_price 10s infinite;-ms-animation: show_price 10s infinite;
+}
+@-moz-keyframes show_price { 
+0%, 22% { color:rgba( 76, 98, 113, 1); visibility: hidden; } 
+23%, 100% { color: black; visibility: visible; font-weight: bold;}
+26%, 47% { color:rgba( 76, 98, 113, 1); }
+}  
+
+@-webkit-keyframes show_price { 
+0%, 22% { color:rgba( 76, 98, 113, 1); visibility: hidden; } 
+23%, 100% { color:black; visibility: visible; font-weight: bold;}
+26%, 47% { color:rgba( 76, 98, 113, 1); }
+}  
+.new_price:before{
+	
+/* .old_price { */
+	color:red;
+/* 	transition: color ease .3s; */
+	position: relative;
+	top: 10px;
+	font-weight: bold;
+	font-size: large;
+	font-stretch: expanded;
+	text-decoration:line-through;
+    font-weight: lighter;
+    font-size: medium;
+-moz-animation: hide_price 10s infinite;-webkit-animation: hide_price 10s infinite;-ms-animation: hide_price 10s infinite;
+}
+@-moz-keyframes hide_price {  
+0%, 50% { color: red; visibility: visible; text-decoration:line-through;}
+1%, 22% { color: black; text-decoration:underline;}
+/* 24%, 100% { visibility: hidden; }  */
+}
+@-webkit-keyframes hide_price { 
+0%, 50% { color: red; visibility: visible; text-decoration:line-through;}
+1%, 22% { color: black; }
+/* 24%, 100% { visibility: hidden; }  */
+}  
+.new_price:after{
+	content: url('http://artel.ws/solution/images/rub_black.png'); 
+-moz-animation: hide_price 10s infinite;-webkit-animation: hide_price 10s infinite;-ms-animation: hide_price 10s infinite;
+}
+img.photo_show {
+	max-height:172px; 
+	max-width:172px;
+	float:left;
+	margin:0px 3px 2px 0px;
+    border: 1px black;
+}
+img.photo_full_show {
+	max-width:350px;
+	float:left;
+	margin:0px 6px 5px 0px;
+	cursor: url('http://artel.ws/solution/images/magnifier.png'), crosshair;
+    border: 1px black;
+}
+img.new_tovar {
+	 position: relative; 
+	 top:-172px; 
+	 right: -10px; 
+	 z-index: 10; 
+	 width:50px;
+}
+div.cart_pane {
+	left: %; 
+	right: 2%;
+	
+}
+div.memo_category {
+	width:100%; 
+	height: auto;  
+/* 	white-space: pre;  */
+	text-align:justify;
+	
+}
+div.div100 {
+	width: 100%;
+	float: left;
+	height: auto;
+}
+#btnId {
+	max-height: 98%;
+	max-width: 98%;
+	padding-left: 1px;
+	padding-right: 1px;
+	
+}
+div.memo_tovar {
+/* 	height: 250px; */
+	overflow-y:hidden;
+	text-align:justify;
+	cursor: pointer;
+	word-break: break-all;
+}
+div.memo_tovar:hover {
+/*     width: 100%; */
+    font-style: italic;
+	overflow-y:  auto;
+    
+}
+div.memo_tovar:hover span{
+    border: 1px dotted #f89292;
+    display:block;
+    width: 97%;
+}
+/*  Показ фото*/
+div.memo_tovar img.photo_max, div a img.photo_max, div.record_all{
+/*
+	width:0;
+	height:0;
+*/
+	display: none;
+	transition: opacity ease .6s, border ease .6s;
+	-moz-transition: background-size ease .6s, outline ease .6s;
+    -o-transition:   background-size ease .6s, outline ease .6s;
+   opacity: 1;
+
+}
+/*  */
+div.memo_tovar:hover img.photo_show{
+/* 	display: none; */
+   opacity: 0.6;
+}
+div.memo_tovar:hover img.photo_max, div.td:hover a img.photo_max, div:hover a div.record_all{
+/*
+	width:100%;
+	height: 100%;
+*/
+	max-height:66%; 
+	max-width:66%;
+	position: fixed;
+	cursor: progress;
+	border-radius: 10px;
+	z-index: 100;
+/* 	top: 2%; */
+/* 	left: 2%;  */
+	right: 2%;
+	bottom: 2%;
+    opacity: 0.8;
+	display: block;
+	border:  7px solid rgba(0, 0, 0, 0.21);
+}
+#zoom_photo{
+	display: none;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	border-radius: 50px;
+    position: fixed;	
+	z-index: 100;
+	margin:-4px;	/* Set this to minus the border thickness. */
+	height:66%; 
+	width:36%;
+	top: %;
+	left: 2%; 
+	right: 2%;
+	bottom: 2%;
+	border: 7px solid rgba(0, 0, 0, 0.21);
+}
+#div_full_show:hover img{
+	display: block;
+}
+#fAddCart {
+	float:left;width:100%;padding-top:10px;
+	counter-reset: sizes;
+}
+/*
+#fAddCart:after {
+  content: '= ' counter(sizes);
+}
+*/
+#fAddCart label
+{
+    float:left;
+    cursor: pointer;
+    margin: 2px;
+    background-size: cover;
+    background-position: center center; 
+    counter-increment: sizes;
+}
+#fAddCart label span
+{
+    text-align: center;
+    display: block;
+    padding: 31px 31px;
+    font-size: 1.2em;
+/*     width:65px; */
+    height:65px;
+}
+#fAddCart label input
+{
+    position: absolute;
+    top: -20px;
+}
+#fAddCart label + input[name="color"]{
+  position:static;
+  font-size: larger;
+  color: #9e0707;
+}
+#fAddCart label input[name="size3"]{
+  position:static;
+}
+#fAddCart label input:checked{
+/*   position:static; */
+    -moz-box-shadow: 0px 0px 4px 1px #9e0707;
+    -webkit-box-shadow: 0px 0px 4px 1px #9e0707;
+    box-shadow: 0px 0px 4px 1px #9e0707;
+}
+#fAddCart input:checked + span
+{
+    -moz-box-shadow: 0px 0px 4px 1px #9e0707;
+    -webkit-box-shadow: 0px 0px 4px 1px #9e0707;
+    box-shadow: 0px 0px 4px 1px #9e0707;
+}
+a[title*=desc]:after {
+	content: url('http://solution.artel.ws/images/uup.png');
+}
+a:visited {
+	
+}
+.selected {
+	outline: aqua outset 1px;
+}
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+
+  z-index: 2000;
+  position: fixed;
+  height: 90px;
+  width: 90px;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.pace.pace-inactive .pace-activity {
+  display: none;
+}
+
+.pace .pace-activity {
+  position: fixed;
+  z-index: 2000;
+  display: block;
+  position: absolute;
+  left: -30px;
+  top: -30px;
+  height: 90px;
+  width: 90px;
+  display: block;
+  border-width: 30px;
+  border-style: double;
+  border-color: #29d transparent transparent;
+  border-radius: 50%;
+
+  -webkit-animation: spin 1s linear infinite;
+  -moz-animation: spin 1s linear infinite;
+  -o-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+.pace .pace-activity:before {
+  content: ' ';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 50px;
+  width: 50px;
+  display: block;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #29d transparent transparent;
+  border-radius: 50%;
+}
+
+@-webkit-keyframes spin {
+  100% { -webkit-transform: rotate(359deg); }
+}
+
+@-moz-keyframes spin {
+  100% { -moz-transform: rotate(359deg); }
+}
+
+@-o-keyframes spin {
+  100% { -moz-transform: rotate(359deg); }
+}
+
+@keyframes spin {
+  100% {  transform: rotate(359deg); }
+}
