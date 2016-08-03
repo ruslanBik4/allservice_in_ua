@@ -8,6 +8,7 @@
        $pathInclude = [ 
            'models',
            'models/config',
+           'models/ui',
            'views',
            'views/tables',
            'views/forms',
