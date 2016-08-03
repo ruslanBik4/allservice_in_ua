@@ -21,15 +21,37 @@ echo '</pre>';
 $xold = '';
 $i = -1;
 $j = 0;
+// По-прежнему ужасные имена переменных!!!
 foreach ($_POST as $key => $value){
     $x = explode(':', $key);
     if($x[0] !== $xold){
         $i++;
         $xold = $tableName[] = $x[0];
     }
-    $mas[$i][$x[1]] = $value;
+    $mas[$x[0]][$x[1]] = $value; // имена подмассивов (ключи) = имени таблицы
 }
+// заношу в базу
 
+$query = new Query();
+
+foreach($mas as $table => $fields) {  
+    
+    $sql = "insert into $table (";
+    $comma = $values = '';
+
+    foreach($fields as $fieldName => $value) {
+        $sql .= "$comma $fieldName";
+        $values .= "$comma '$value'";
+        $comma = ',';
+    }
+    
+    echo '<br>' . ($sql .= " ) values ( $values )"). '<br>';
+    
+    $result = $query->runSql($sql);
+    
+    var_dump($result);
+    
+}
 
 echo '<pre>Преобразованный массив POST<br>';
 var_dump($mas);
