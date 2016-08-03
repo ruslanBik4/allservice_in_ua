@@ -17,10 +17,11 @@
            'isenka',
            'isenka/bridge',
            'investors',
-           'go_bridge/',
-           'go_bridge/old', // временно
+           'models/go_bridge/',
+           'models/go_bridge/old', // временно
            'room',
-           'models/ui'
+           'models/ui',
+           'views/room'
        ];
        
 
