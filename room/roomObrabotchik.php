@@ -17,6 +17,8 @@ echo '<pre>Исходный массив POST<br>';
 var_dump($_POST);
 echo '</pre>';
 
+// РАзбиваю ключи $_POST для получения имени таблицы, а также формурую для каждой таблицы отдельный массив
+// mas[0], mas[1] ... mas[n]
 $xold = '';
 $i = -1;
 $j = 0;
@@ -38,11 +40,11 @@ echo '<pre>Массив имен таблиц<br>';
 var_dump($tableName);
 echo '</pre>';
 
-echo 'Осуществляем сверку массива $mas с таблицами<br>';
+echo 'Осуществляем сверку массивов mas[0], mas[1] ... mas[n] с таблицами<br>';
 for($i = 0; $i<count($tableName); $i++)
 {
     echo 'Имя таблицы '.$tableName[$i].'<br>';
-    $table = new FormCreatorClass($tableName[$i]);
+    $table = new formCreatorClass($tableName[$i]);
     $proverka = $table->sverka($mas[$i]);
 
     switch($proverka){
