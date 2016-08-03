@@ -9,6 +9,7 @@ class ui_inputField
     public $html_class;
     public $html_id;
     public $html_value;
+    public $input_placeholder;
     public $label;
     public $db_table_name;
     public $db_field_name;
@@ -27,19 +28,19 @@ class ui_inputField
         if (isset($id_field)) {
             # если передан $id_field, то ищем в базе и заполняем
             $sql = sprintf("SELECT 
-f.html_name, 
-f.html_type, 
-f.html_class, 
-f.html_id, 
-f.html_value, 
-f.label, 
-f.db_table_name, 
-f.db_field_name, 
-f.npp, 
-r.name as rule_name 
-FROM ui_input_fields f
-LEFT JOIN ui_input_fields_rules r ON r.id = f.id_ui_input_fields_rules 
-WHERE f.id=%d",
+                            f.html_name, 
+                            f.html_type, 
+                            f.html_class, 
+                            f.html_id, 
+                            f.html_value, 
+                            f.label, 
+                            f.db_table_name, 
+                            f.db_field_name, 
+                            f.npp, 
+                            r.name as rule_name 
+                            FROM ui_input_fields f
+                            LEFT JOIN ui_input_fields_rules r ON r.id = f.id_ui_input_fields_rules 
+                            WHERE f.id=%d",
                 $id_field);
             $query = new Query();
             $result = $query->runSql($sql);
@@ -53,6 +54,8 @@ WHERE f.id=%d",
             $this->db_field_name = $result[0]['db_field_name'];
             $this->npp = $result[0]['npp'];
             $this->rule = new ui_fieldRule($result[0]['rule_name']);
+            
+            $this->input_placeholder = $result[0]['placeholder'] ? : 'Введите значение ' . $this->html_name ;
 
         } elseif (isset($html_name) AND isset($html_type)) {
             $this->html_name = $html_name;
