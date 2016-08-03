@@ -13,10 +13,59 @@ require_once '../autoload.php';
 $params = array($host, $user, $password, $database);
 $investor = new investorClass($params);
 
-echo '<pre>';
+echo '<pre>Исходный массив POST<br>';
 var_dump($_POST);
 echo '</pre>';
 
+$xold = '';
+$i = -1;
+$j = 0;
+foreach ($_POST as $key => $value){
+    $x = explode(':', $key);
+    if($x[0] !== $xold){
+        $i++;
+        $xold = $tableName[] = $x[0];
+    }
+    $mas[$i][$x[1]] = $value;
+}
+
+
+echo '<pre>Преобразованный массив POST<br>';
+var_dump($mas);
+echo '</pre>';
+
+echo '<pre>Массив имен таблиц<br>';
+var_dump($tableName);
+echo '</pre>';
+
+echo 'Осуществляем сверку массива $mas с таблицами<br>';
+for($i = 0; $i<count($tableName); $i++)
+{
+    echo 'Имя таблицы '.$tableName[$i].'<br>';
+    $table = new FormCreatorClass($tableName[$i]);
+    $proverka = $table->sverka($mas[$i]);
+
+    switch($proverka){
+    case true:
+        echo 'Массив прошел проверку и может быть обработан';
+        break;
+    case false:
+        echo 'Массив не прошел проверку';;
+    }
+    echo '<br>';
+}
+
+
+
+
+
+
+
+
+
+
+
+// Старая версия рабочая
 //$tableName = array_shift($_POST);
 //
 //var_dump($tableName);

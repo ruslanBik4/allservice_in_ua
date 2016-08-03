@@ -18,7 +18,8 @@
            'investors',
            'go_bridge/',
            'go_bridge/old', // временно
-           'room'
+           'room',
+           'models/ui'
        ];
        
 
