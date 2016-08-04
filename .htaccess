@@ -21,7 +21,7 @@ Options All -ExecCGI  +Includes +FollowSymLinks
 	
 	
 	#	и запрошенный путь соответствует пути к физическому файлу
-	RewriteCond %{REQUEST_FILENAME} !-f 
+	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule (.*) web/app.php?path=$1  [L,QSA]
 	
 	
