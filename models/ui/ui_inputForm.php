@@ -5,6 +5,7 @@ class ui_inputForm
     public $html_name;
     public $html_id;
     public $js_func_onsubmit;
+    public $action;
     public $description;
     public $fields; // array ui_inputField object
 
@@ -16,7 +17,7 @@ class ui_inputForm
      */
     public function __construct($form_name)
     {
-        $sql = sprintf("SELECT id, html_name, html_id, js_func_onsubmit, description 
+        $sql = sprintf("SELECT id, html_name, html_id, js_func_onsubmit, action, description 
 FROM ui_input_forms 
 WHERE html_name='%s'",
             $form_name);
@@ -24,7 +25,18 @@ WHERE html_name='%s'",
         $result = $query->runSql($sql);
         $this->html_name = $result[0]['html_name'];
         $this->html_id = $result[0]['html_id'];
-        $this->js_func_onsubmit = $result[0]['js_func_onsubmit'];
+        /*
+                #удаить пробелы и скобки
+                $this->js_func_onsubmit = str_replace(
+                    [' ','(',')'],
+                    '',
+                    $result[0]['js_func_onsubmit']
+                );
+          */
+        #удаить пробелы и скобки
+        $this->js_func_onsubmit = trim(explode('(', $result[0]['js_func_onsubmit'])[0]);
+
+        $this->action = $result[0]['action'];
         $this->description = $result[0]['description'];
         $this->form_id = $result[0]['id'];
 
@@ -54,14 +66,19 @@ WHERE html_name='%s'",
         }
 
         $arrFormParts[] = 'method="POST"';
-        $arrFormParts[] = 'action="roomObrabotchik.php"';
         $arrFormParts[] = '>';
         $html = implode(' ', $arrFormParts);
 
         foreach ($this->fields as $field) {
             $html .= '<p>' . $field->toHtml() . '</p>';
         }
-        $html .= '<p><input type="submit" value="Отправить">';
+        if (isset($this->js_func_onsubmit)){
+            $html .= sprintf(
+                '<p><input type="button" value="Отправить" onclick="%s">',
+                $this->js_func_onsubmit . "($('form'), '" . $this->action . "')"
+            );
+        }
+
         $html .= '</form>';
 
         return $html;

@@ -4,7 +4,7 @@ class ui_fieldRule
 {
 
     public $rule_name;
-    private $constraints; //array ui_fieldConstraint object
+    public $constraints; //array ui_fieldConstraint object
 
     /**
      * fieldRule constructor.
@@ -38,6 +38,7 @@ class ui_fieldRule
 
     private function load_constraints($rule_name)
     {
+        $constraints = [];
         $sql = sprintf("SELECT c.name, rc.value, rc.relative_html_input_name 
 FROM ui_input_fields_rules_constraints rc 
 JOIN ui_input_fields_rules r ON r.id = rc.id_ui_input_fields_rules AND r.name = '%s' 
@@ -45,7 +46,11 @@ JOIN  ui_input_fields_constraints c ON c.id = rc.id_ui_input_fields_constraints"
             $rule_name);
 
         $query = new Query();
-        return $query->runSql($sql);
+        $result = $query->runSql($sql);
+        foreach($result as $row){
+        $constraints[]=$row;
+        }
+        return $constraints;
     }
 
 
