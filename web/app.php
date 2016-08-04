@@ -3,7 +3,9 @@
       require_once '../models/autoload.php';
     
     $arrPath = explode('/', $_REQUEST['path']);
-        
+
+    var_dump($arrPath);
+
     switch ($arrPath[0]) {
         case 'customers': {
             
