@@ -12,11 +12,12 @@
             switch ($arrPath[1])  {
                 case 'registration':
                     $parameters = explode('?', $arrPath[2]);
-                    
-//                     if ()
-                    
-                    $controller = new customersRegistrationController( $_GET['handler'] ? : 'roomObrabotchik.php', $_GET );
+                    $controller = new customersRegistrationController( $_GET['handler'] ? : 'roomProcessing.php', $_GET );
                     echo $controller->getFormRegistration();
+                    break;
+                case 'roomProcessing.php':
+                    echo 'Hi!';
+                    $room = new roomProcessing();
                     break;
                 default:
                 echo 'Hello, customers!';

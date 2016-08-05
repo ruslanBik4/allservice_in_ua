@@ -14,6 +14,7 @@
            'views/forms',
            'views/menus',
            'controllers',
+           'controllers/customers',
            'isenka',
            'isenka/bridge',
            'investors',
