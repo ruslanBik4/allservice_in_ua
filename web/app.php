@@ -16,7 +16,6 @@
                     echo $controller->getFormRegistration();
                     break;
                 case 'roomProcessing.php':
-                    echo 'Hi!';
                     $room = new roomProcessing();
                     break;
                 default:

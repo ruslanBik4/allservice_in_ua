@@ -56,16 +56,22 @@ class formCreatorFromJsonClass
      */
     public function inputCreation(){
         $result = '';
+
         $arrFields = $this->arrayFromJson;
         // Перебираем данные
         foreach ($arrFields as $number => $field){
+
+            // Флажок пропуска итерации цикла
+            $skipInputLabelCreation = 0;
+
             foreach ($field as $attribite => $value){
                 switch ($attribite){
                     case 'html_name':
-                        // Если такое db_field_name ранее встречалось, выходим на уровень первого foreach
+
+                        // Если такое db_field_name ранее встречалось, устанавливаем $skipInputLabelCreation = 1
                         if(in_array($value, $this->inputNamesArray))
                         {
-                            break 3;
+                            $skipInputLabelCreation = 1;
                         }
                         $this->inputNamesArray[] = $name = $value;
                         break;
@@ -83,16 +89,25 @@ class formCreatorFromJsonClass
                         break;
                     case 'label':
                         $label = $value;
+                        if($label == 'label'){
+                            unset($label);
+                        }
                         break;
                 }
             }
-            
-            $valueInput = ( $this->queryString[$name] ? "value='".$this->queryString[$name] . "'" : '');
-            // Создаем скрытый input для хранения названия таблицы
-            // Нужен ли for в label?
-            $result.= "<label for='{$id}'>{$label}</label><br>";
-            // Главный input
-            $result.= "<input type = '{$type}' name = '{$tableName}:{$name}' class = '{$class}' id = '{$id}' $valueInput /><br>";
+
+
+            if(!$skipInputLabelCreation)
+            {
+                $valueInput = ( $this->queryString[$name] ? "value='".$this->queryString[$name] . "'" : '');
+                // Создаем скрытый input для хранения названия таблицы
+
+                if(isset($label)){
+                    $result.= "<label for='{$id}'>{$label}</label><br>";
+                }
+                // Главный input
+                $result.= "<input type = '{$type}' name = '{$tableName}:{$name}' class = '{$class}' id = '{$id}' $valueInput /><br>";
+            }
         }
         return $result;
     }

@@ -20,3 +20,5 @@ class debug
         echo '<br>Debug finish<br></pre>';
     }
 }
+
+// Пример использования debug::VD($result, '$result'.__FILE__.' '.__LINE__);
