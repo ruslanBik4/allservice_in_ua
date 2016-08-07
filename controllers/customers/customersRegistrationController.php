@@ -23,7 +23,7 @@ class customersRegistrationController {
         $form = new formCreatorFromJsonClass($json, $this->queryString);
         
         return "Для регистрации заполните форму:<br>Она отправиться на {$this->handler}<br>"
-         . $form->formCreation($this->handler );
+         . $form->($this->handler );
    }
     
  }

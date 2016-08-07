@@ -18,6 +18,10 @@
                 case 'roomProcessing.php':
                     $room = new roomProcessing();
                     break;
+                case 'showtable':
+                    $table = new tableDrawing($arrPath[2]);
+                    echo $table->getTable();
+                    break;
                 default:
                 echo 'Hello, customers!';
             }

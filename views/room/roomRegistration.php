@@ -16,6 +16,8 @@ $form = new formCreatorFromJsonClass($json);
 // Передаем путь к файлу обработчику
 echo ($form->formCreation('roomObrabotchik.php'));
 
+roomProcessing::test();
+
  //Старая форма рабочая
 //$table = new formCreatorClass('ref_users');
 //echo ($table->formCreation('roomObrabotchik.php'));

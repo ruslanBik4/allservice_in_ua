@@ -52,7 +52,15 @@ class roomProcessing
             $sql = "insert into $table (";
             $comma = $values = '';
 
+
             foreach($fields as $fieldName => $value) {
+
+                if($fieldName == 'pass_sha1'){
+                    $value = passwordProcessing::encryptPass($value);
+
+                    debug::VD($value, '$value'.__FILE__.' '.__LINE__);
+                }
+
                 $sql .= "$comma $fieldName";
 
                 if(preg_match('/id_*/',$fieldName)){
@@ -65,6 +73,7 @@ class roomProcessing
             $sql .= " ) values ( $values )";
             echo '<br>' . ($sql). '<br>';
 
+            // Отправка запроса
             $result = $query->runSql($sql);
         }
     }
