@@ -15,6 +15,9 @@
                     $controller = new customersRegistrationController( $_GET['handler'] ? : 'roomProcessing.php', $_GET );
                     echo $controller->getFormRegistration();
                     break;
+                case 'authorization':
+                    $controller = new customerAuthorizarionController();
+                    break;
                 case 'roomProcessing.php':
                     $room = new roomProcessing();
                     break;
