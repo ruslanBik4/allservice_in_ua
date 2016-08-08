@@ -29,7 +29,6 @@ class GoBridge
 
         $this->ch = curl_init();
 
-        curl_setopt($this->ch, CURLOPT_HTTPGET, true);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
     }
 
@@ -49,13 +48,21 @@ class GoBridge
      * Выполнить запрос.
      *
      * @param string $command
+     * @param bool $post
      * @return array
      */
-    public function execute($command)
+    public function execute($command, $post = false)
     {
-        $url = $this->url . $this->query_string . urlencode($command);
+        if ($post) {
+            curl_setopt($this->ch, CURLOPT_POST, true);
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, true);
+            curl_setopt($this->ch, CURLOPT_URL, $this->url . $this->query_string . $command);
+        } else {
+            curl_setopt($this->ch, CURLOPT_HTTPGET, true);
+            curl_setopt($this->ch, CURLOPT_URL, $this->url . $this->query_string . urlencode($command));
+        }
 
-        curl_setopt($this->ch, CURLOPT_URL, $url);
+        curl_exec($this->ch);
 
         return $this->parseResult(curl_exec($this->ch));
     }

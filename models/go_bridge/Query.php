@@ -15,7 +15,7 @@ class Query extends AbstractBridgeClient
         return $this->go_bridge->execute($sql);
     }
 
-    public function insert($tablename, array $values)
+    public function runInsert($tablename, array $values)
     {
         $string = 'insert=' . $tablename . '&';
 
@@ -32,7 +32,7 @@ class Query extends AbstractBridgeClient
             $count++;
         }
 
-        var_dump($string);
+        var_dump($this->go_bridge->execute($string, true));
     }
 
     /**
