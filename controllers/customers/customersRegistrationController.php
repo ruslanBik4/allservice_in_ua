@@ -5,6 +5,7 @@ class customersRegistrationController {
     private $queryString = [];
     
     public function __construct($handler, $queryString = null) {
+        echo 'Hi';
         $this->handler = $handler;
         
         if ($queryString)
@@ -23,7 +24,7 @@ class customersRegistrationController {
         $form = new formCreatorFromJsonClass($json, $this->queryString);
         
         return "Для регистрации заполните форму:<br>Она отправиться на {$this->handler}<br>"
-         . $form->($this->handler );
+         . $form->formCreation($this->handler );
    }
     
  }
