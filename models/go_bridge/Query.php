@@ -17,34 +17,22 @@ class Query extends AbstractBridgeClient
 
     public function insert($tablename, array $values)
     {
-        $sql = "INSERT INTO {$tablename} (";
+        $string = 'insert=' . $tablename;
 
         $size = sizeof($values)-1;
         $count = 0;
 
         foreach ($values as $key => $value) {
             if ($count == $size) {
-                $sql .= $key . ') VALUES (';
+                $string .= $key . '=' . $value;
             } else {
-                $sql .= $key . ', ';
+                $string .= $key . '=' . $value . '&';
             }
 
             $count++;
         }
 
-        $count = 0;
-
-        foreach ($values as $key => $value) {
-            if ($count == $size) {
-                $sql .= "'{$value}')";
-            } else {
-                $sql .= "'{$value}', ";
-            }
-
-            $count++;
-        }
-
-        return $this->runSql($sql);
+        var_dump($string);
     }
 
     /**
