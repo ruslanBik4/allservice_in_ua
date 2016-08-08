@@ -1,13 +1,16 @@
 <?php
+// отрисовывает одну ячейку таблицы, с текстом данных ( символ "-" в случае отсутствия данных ) и стилем, переданными как параметры    
 function WrapTD( $name, $text='-', $style, $align='right' ) {
 	if (!$text)
 	  $text = '-';
 	  
 	return "<div name='$name' ".GetAttrFromValue( 'style', $style ).GetAttrFromValue( 'align', $align )." class='td'> $text </div>";
 }
+// отрисовывает ячейку шапки таблицы
 function WrapTH( $name, $text='-', $style, $align='center' ) {
 	return "<div title='$name' ".GetAttrFromValue( 'style', $style ).GetAttrFromValue( 'align', $align )." class='th'> $text </div>";
 }
+// отрисовывает шапку таблицы
 function GetTableHeads($order) {
 global $recordSet, $fieldSet, $arr_field, $table, $onsubmit, $action, $th2, $width_all, $admin_true, $current_params;
 
@@ -15,7 +18,7 @@ global $recordSet, $fieldSet, $arr_field, $table, $onsubmit, $action, $th2, $wid
   $width_all  = 30;  // padding bootramp 15px
 	$output_text = "<output name='State'>⎋</output>";
   
-  for( $i = 0; $i < $recordSet->FieldCount(); $i++ )
+  for( $i = 0; $i < $recordSet->FieldCount(); $i++ ) // проходит по полям
    {
 	   $field = $recordSet->FetchField($i); 
 // 	   print_r($recordSet->FetchField($i));  //проверить потом multiple_key;
@@ -46,7 +49,7 @@ global $recordSet, $fieldSet, $arr_field, $table, $onsubmit, $action, $th2, $wid
 	   if ( !($admin_true || $arr_field[$i]["is_view"]) )
 	      continue;
 	   
-	   // сохраняем настройки слобцов для последующего показа   
+	   // сохраняем настройки слобцов для последующего показа в глобальном массиве  $arr_field
 	   $arr_field[$i]["type"] = $type = ( $fieldSet->fields['type_input'] ? $fieldSet->fields['type_input'] : StyleInput( $field->type ) );
 	   $arr_field[$i]["length"] = $length = ( $fieldSet->fields['field_len'] ? $fieldSet->fields['field_len']  : ( ($length = $field->max_length) <151 ? $length : 150) );
 	   $arr_field[$i]["in_table"] = $in_table = ( $fieldSet->fields['in_table'] ? $fieldSet->fields['in_table'] : '');
@@ -122,7 +125,7 @@ global $recordSet, $fieldSet, $arr_field, $table, $onsubmit, $action, $th2, $wid
 	
   return $th1;
 }
-// показ данных
+// показ данных в одном поле
 function GetInputFromType($type, $name, $value, $style, $formName, $in_table, $field_name, $oninput='return FormIsModified(event, this.form);', $required ) {
 global $arr_field, $conn, $admin_true;
 global $ADODB_FETCH_MODE;	
@@ -168,7 +171,7 @@ global $ADODB_FETCH_MODE;
 	else
 	  return GetTextInput($name, '', $value, $style, $type, $formName, $oninput, $required );
 }
-
+// jnhbcjdrf lfyys[ nf,kbws
 function GetTableRecords($order) {
 global $recordSet, $fieldSet, $table, $onsubmit, $arr_field, $admin_true;
 
@@ -256,6 +259,7 @@ global $recordSet;
 	$url = preg_replace( '/#\$(\w+)\$#/e', '"\"{$recordSet->fields[$1]}\""', $url);
 	return "<a href='show_tovar.php?table=$url' title='Посмотреть наличие' > $value </a>";
 }
+// получить значение поле Айди из вторичного ключа, елслинадо
 
 function GetRealValue( $value, $name ) {
   global $table;
@@ -265,7 +269,7 @@ function GetRealValue( $value, $name ) {
   else
       return $value;	
 }
-
+// отрисовывает форму, если макрос зашит в строку запроса
 function GetMacrosForm() {
 global $adminTrue, $macros;	
     if ( isset($_REQUEST['key_parent']) )
@@ -559,6 +563,8 @@ catch(Exception $e)
     
   echo "Ошибка - {$_SESSION['errors']}. Подробности смотри <a href='error_log.php' target='_blank'>тут </a>. запрос - $sql_text".print_r($_REQUEST);
 }
+
+// шаблон страницы
 ?>
 	 <header class='panel-heading' style='width:<?=$width_all?>px;'>  
 		  <div style='margin:0;' class='thead table row-fluid' > <?=$header_table?> </div>
