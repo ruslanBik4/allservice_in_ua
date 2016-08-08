@@ -19,7 +19,9 @@ class ui_fieldConstraint
         $this->relative_html_input_name = $relative_html_input_name;
         # если $name нет в таблице ui_input_fields_constraints - бросить исключене "не известное ограничение поля"
     }
-    poblic function toJSON(){
-    return json_encode($this);
+
+    public function toJSON()
+    {
+        return json_encode($this);
     }
 }

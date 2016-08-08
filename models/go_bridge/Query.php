@@ -15,6 +15,38 @@ class Query extends AbstractBridgeClient
         return $this->go_bridge->execute($sql);
     }
 
+    public function insert($tablename, array $values)
+    {
+        $sql = "INSERT INTO {$tablename} (";
+
+        $size = sizeof($values)-1;
+        $count = 0;
+
+        foreach ($values as $key => $value) {
+            if ($count == $size) {
+                $sql .= $key . ') VALUES (';
+            } else {
+                $sql .= $key . ', ';
+            }
+
+            $count++;
+        }
+
+        $count = 0;
+
+        foreach ($values as $key => $value) {
+            if ($count == $size) {
+                $sql .= "'{$value}')";
+            } else {
+                $sql .= "'{$value}', ";
+            }
+
+            $count++;
+        }
+
+        return $this->runSql($sql);
+    }
+
     /**
      * Выполнить процедуру.
      *
