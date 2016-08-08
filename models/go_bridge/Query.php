@@ -17,7 +17,7 @@ class Query extends AbstractBridgeClient
 
     public function insert($tablename, array $values)
     {
-        $string = 'insert=' . $tablename;
+        $string = 'insert=' . $tablename . '&';
 
         $size = sizeof($values)-1;
         $count = 0;
