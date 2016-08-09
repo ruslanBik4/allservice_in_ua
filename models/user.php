@@ -4,8 +4,8 @@ class user
 {
     public $login;
     public $id_client;
-    public $permission_table; //array: key-table_name, value - permission string
-    public $permission_action;//array allow action
+    private $permission_table; //array: key-table_name, value - permission string
+    private $permission_action;//array allow action
 
     public function __construct($login, $id_client)
     {
