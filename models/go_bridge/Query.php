@@ -15,6 +15,13 @@ class Query extends AbstractBridgeClient
         return $this->go_bridge->execute($sql);
     }
 
+    /**
+     * Записать в выбранную таблицу.
+     *
+     * @param string $tablename
+     * @param array $values
+     * @return array
+     */
     public function runInsert($tablename, array $values)
     {
         $string = 'insert=' . $tablename . '&';
@@ -32,7 +39,35 @@ class Query extends AbstractBridgeClient
             $count++;
         }
 
-        var_dump($this->go_bridge->execute($string, true));
+        return $this->go_bridge->execute($string, true);
+    }
+
+    /**
+     * Записать в выбранную таблицу.
+     *
+     * @param string $tablename
+     * @param array $values
+     * @param string $where
+     * @return array
+     */
+    public function runUpdate($tablename, array $values, $where)
+    {
+        $string = 'update=' . $tablename . '&';
+
+        $size = sizeof($values)-1;
+        $count = 0;
+
+        foreach ($values as $key => $value) {
+            if ($count == $size) {
+                $string .= $key . '=' . $value;
+            } else {
+                $string .= $key . '=' . $value . '&';
+            }
+
+            $count++;
+        }
+        var_dump($string); die;
+        return $this->go_bridge->execute($string, true);
     }
 
     /**

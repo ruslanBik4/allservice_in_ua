@@ -55,8 +55,8 @@ class GoBridge
     {
         if ($post) {
             curl_setopt($this->ch, CURLOPT_POST, true);
-            curl_setopt($this->ch, CURLOPT_POSTFIELDS, true);
-            curl_setopt($this->ch, CURLOPT_URL, $this->url . $this->query_string . $command);
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, $command);
+            curl_setopt($this->ch, CURLOPT_URL, $this->url . $this->query_string);
         } else {
             curl_setopt($this->ch, CURLOPT_HTTPGET, true);
             curl_setopt($this->ch, CURLOPT_URL, $this->url . $this->query_string . urlencode($command));
