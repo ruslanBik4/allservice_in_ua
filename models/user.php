@@ -2,8 +2,8 @@
 
 class user
 {
-    public $login;
-    public $id_client;
+    private $login;
+    private $id_client;
     private $permission_table; //array: key-table_name, value - permission string
     private $permission_action;//array allow action
 
