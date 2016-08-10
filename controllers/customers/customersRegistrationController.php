@@ -5,7 +5,6 @@ class customersRegistrationController {
     private $queryString = [];
     
     public function __construct($handler, $queryString = null) {
-        echo 'Hi';
         $this->handler = $handler;
         
         if ($queryString)

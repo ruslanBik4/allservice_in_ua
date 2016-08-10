@@ -8,6 +8,7 @@ class roomProcessing
 
     public function __construct()
     {
+        var_dump($_POST);
         $this->data = $_POST;
 
         $this->processing();
@@ -29,14 +30,40 @@ class roomProcessing
                 $counter++;
                 $previousNameOfTable = $tableName[] = $params[0];
             }
+            if($params[1] == 'pass_sha1'){
+                $value = passwordProcessing::encryptPass($value);
+            }
             $mas[$params[0]][$params[1]] = $value;
         }
 
         $this->dataAfterProcessing = $mas;
 
-        $this->writeToDB();
+        // Было
+        //$this->writeToDB();
+
+        // Стало
+        $this->writeToDBnew();
     }
 
+    protected function writeToDBnew(){
+        $query = new Query();
+        $lastId = NULL;
+        debug::VD($this->dataAfterProcessing, '$this->dataAfterProcessing'.__FILE__.' '.__LINE__);
+
+        foreach($this->dataAfterProcessing as $table => $fields) {
+            $tableName = $table;
+            foreach ($fields as $key => $value){
+                //debug::VD($key, '$key'.__FILE__.' '.__LINE__);
+                if(preg_match('/id_*/',$key)){
+                    $fields[$key] = $lastId;
+                }
+            }
+            $result = $query->runInsert($tableName, $fields);
+            $lastId = $result[0];
+        }
+    }
+
+    // Старая функция
     protected function writeToDB()
     {
 
