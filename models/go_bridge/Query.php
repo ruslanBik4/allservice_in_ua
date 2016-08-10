@@ -15,36 +15,59 @@ class Query extends AbstractBridgeClient
         return $this->go_bridge->execute($sql);
     }
 
-    public function insert($tablename, array $values)
+    /**
+     * Записать в выбранную таблицу.
+     *
+     * @param string $tablename
+     * @param array $values
+     * @return array
+     */
+    public function runInsert($tablename, array $values)
     {
-        $sql = "INSERT INTO {$tablename} (";
+        $string = 'insert=' . $tablename . '&';
 
         $size = sizeof($values)-1;
         $count = 0;
 
         foreach ($values as $key => $value) {
             if ($count == $size) {
-                $sql .= $key . ') VALUES (';
+                $string .= $key . '=' . $value;
             } else {
-                $sql .= $key . ', ';
+                $string .= $key . '=' . $value . '&';
             }
 
             $count++;
         }
 
+        return $this->go_bridge->execute($string, true);
+    }
+
+    /**
+     * Записать в выбранную таблицу.
+     *
+     * @param string $tablename
+     * @param array $values
+     * @param string $where
+     * @return array
+     */
+    public function runUpdate($tablename, array $values, $where)
+    {
+        $string = 'update=' . $tablename . '&';
+
+        $size = sizeof($values)-1;
         $count = 0;
 
         foreach ($values as $key => $value) {
             if ($count == $size) {
-                $sql .= "'{$value}')";
+                $string .= $key . '=' . $value;
             } else {
-                $sql .= "'{$value}', ";
+                $string .= $key . '=' . $value . '&';
             }
 
             $count++;
         }
-
-        return $this->runSql($sql);
+        var_dump($string); die;
+        return $this->go_bridge->execute($string, true);
     }
 
     /**
