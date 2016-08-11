@@ -17,8 +17,7 @@ function send_form(objForm, url) {
         fd.append('fields', JSON.stringify(fields));
 
         $.ajax({
-            //url: url,
-            url: 'showPOST.php',
+            url: url,
             method: 'POST',
             data: fd,
             processData: false,

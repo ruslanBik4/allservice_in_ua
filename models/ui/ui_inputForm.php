@@ -2,14 +2,14 @@
 
 class ui_inputForm
 {
-    public $html_name;
-    public $html_id;
-    public $js_func_onsubmit;
-    public $action;
-    public $description;
-    public $fields; // array ui_inputField object
+    private $html_name;
+    private $html_id;
+    private $action;
+    private $description;
+    private $fields; // array ui_inputField object
 
-    private $form_id;
+    private $id_form;
+    private $changed; // flag
 
     /**
      * ui_inputForm constructor.
@@ -17,37 +17,26 @@ class ui_inputForm
      */
     public function __construct($form_name)
     {
-        $sql = sprintf("SELECT id, html_name, html_id, js_func_onsubmit, action, description 
+        $this->html_name = $form_name;
+        $sql = sprintf("SELECT id, html_name, html_id, action, description 
 FROM ui_input_forms 
 WHERE html_name='%s'",
-            $form_name);
+            $this->html_name);
         $query = new Query();
         $result = $query->runSql($sql);
-        $this->html_name = $result[0]['html_name'];
-        $this->html_id = $result[0]['html_id'];
-        /*
-                #удаить пробелы и скобки
-                $this->js_func_onsubmit = str_replace(
-                    [' ','(',')'],
-                    '',
-                    $result[0]['js_func_onsubmit']
-                );
-          */
-        #удаить пробелы и скобки
-        $this->js_func_onsubmit = trim(explode('(', $result[0]['js_func_onsubmit'])[0]);
-
-        $this->action = $result[0]['action'];
-        $this->description = $result[0]['description'];
-        $this->form_id = $result[0]['id'];
-
-        $this->fields = [];
-        $sql = sprintf("SELECT id FROM ui_input_fields WHERE id_ui_input_forms=%d", $this->form_id);
-        $result = $query->runSql($sql);
-        foreach ($result as $field) {
-            $this->fields[] = new ui_inputField($field['id']);
+        if (empty($result)){
+            $this->fields =[];
+            $this->changed=true;
+        }else{
+            $this->html_id = $result[0]['html_id'];
+            $this->action = $result[0]['action'];
+            $this->action = 'showPOST.php'; // **************** для теста
+            $this->description = $result[0]['description'];
+            $this->id_form = $result[0]['id'];
+            $this->fields = $this->load_fields();
+            $this->changed=false;
         }
-
-    }
+     }
 
     /**
      * @return string
@@ -64,23 +53,128 @@ WHERE html_name='%s'",
         if (isset($this->html_id)) {
             $arrFormParts[] = sprintf('id="%s"', $this->html_id);
         }
-
-        $arrFormParts[] = 'method="POST"';
+        
         $arrFormParts[] = '>';
         $html = implode(' ', $arrFormParts);
 
         foreach ($this->fields as $field) {
             $html .= '<p>' . $field->toHtml() . '</p>';
         }
-        if (isset($this->js_func_onsubmit)){
-            $html .= sprintf(
-                '<p><input type="button" value="Отправить" onclick="%s">',
-                $this->js_func_onsubmit . "($('form'), '" . $this->action . "')"
-            );
-        }
 
+        $html .= sprintf(
+            '<p><input type="button" value="Отправить" onclick="%s">',
+            "send_form($('form'), '" . $this->action . "')"
+        );
         $html .= '</form>';
-
         return $html;
     }
+
+    private function load_fields(){
+        $fields = [];
+        $sql = sprintf("SELECT id FROM ui_input_fields WHERE id_ui_input_forms=%d", $this->id_form);
+        $query = new Query();
+        $result = $query->runSql($sql);
+        foreach ($result as $field) {
+            $fields[] = new ui_inputField($field['id']);
+        }
+        return $fields;
+    }
+
+    public function addField(ui_inputField $field)
+    {
+        $this->fields[] = $field;
+        $this->changed=true;
+    }
+
+    public function save()
+    {
+        if ($this->changed) {
+
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHtmlName()
+    {
+        return $this->html_name;
+    }
+
+    /**
+     * @param mixed $html_name
+     */
+    public function setHtmlName($html_name)
+    {
+        $this->html_name = $html_name;
+        $this->changed=true;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getHtmlId()
+    {
+        return $this->html_id;
+    }
+
+    /**
+     * @param mixed $html_id
+     */
+    public function setHtmlId($html_id)
+    {
+        $this->html_id = $html_id;
+        $this->changed=true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * @param mixed $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+        $this->changed=true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        $this->changed=true;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdForm()
+    {
+        return $this->id_form;
+    }
+
 }
