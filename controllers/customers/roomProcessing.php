@@ -57,9 +57,9 @@ class roomProcessing
                     $fields[$key] = $lastId;
                 }
             }
-            //debug::VD($tableName, '$tableName'.__FILE__.' '.__LINE__);
-            //debug::VD($fields, '$fields'.__FILE__.' '.__LINE__);
-            //$result = $query->runInsert($tableName, $fields);
+            debug::VD($tableName, '$tableName'.__FILE__.' '.__LINE__);
+            debug::VD($fields, '$fields'.__FILE__.' '.__LINE__);
+            $result = $query->runInsert($tableName, $fields);
             debug::VD($result, '$result'.__FILE__.' '.__LINE__);
             $lastId = $result[0];
         }
