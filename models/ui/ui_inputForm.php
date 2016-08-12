@@ -22,7 +22,7 @@ class ui_inputForm
 FROM ui_input_forms 
 WHERE html_name='%s'",
             $this->html_name);
-        $query = new Query();
+        $query = new QueryOld();
         $result = $query->runSql($sql);
         if (empty($result)){
             $this->fields =[];
@@ -72,7 +72,7 @@ WHERE html_name='%s'",
     private function load_fields(){
         $fields = [];
         $sql = sprintf("SELECT id FROM ui_input_fields WHERE id_ui_input_forms=%d", $this->id_form);
-        $query = new Query();
+        $query = new QueryOld();
         $result = $query->runSql($sql);
         foreach ($result as $field) {
             $fields[] = new ui_inputField($field['id']);

@@ -1,7 +1,20 @@
 <?php
 
-class Query extends AbstractBridgeClient
+class Query
 {
+    /**
+     * @var resource
+     */
+    private $ch;
+
+    public function __construct()
+    {
+        $this->ch = curl_init('http://allservice.in.ua/isenka/query.php');
+
+        curl_setopt($this->ch, CURLOPT_POST, true);
+        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+    }
+
     /**
      * Выполнить люой SQL запрос.
      *
@@ -10,36 +23,32 @@ class Query extends AbstractBridgeClient
      */
     public function runSql($sql)
     {
-        $this->go_bridge->setQueryString('sql');
-
-        return $this->go_bridge->execute($sql);
+        return $this->getFromGoApi('sql=' . $sql);
     }
 
     /**
-     * Записать в выбранную таблицу.
-     *
-     * @param string $tablename
+     * @param string $tableName
      * @param array $values
      * @return array
      */
-    public function runInsert($tablename, array $values)
+    public function runInsert($tableName, array $values)
     {
-        $string = 'insert=' . $tablename . '&';
+        $query = 'insert=' . $tableName . '&';
 
         $size = sizeof($values)-1;
         $count = 0;
 
         foreach ($values as $key => $value) {
             if ($count == $size) {
-                $string .= $key . '=' . $value;
+                $query .= $key . '=' . $value;
             } else {
-                $string .= $key . '=' . $value . '&';
+                $query .= $key . '=' . $value . '&';
             }
 
             $count++;
         }
 
-        return $this->go_bridge->execute($string, true);
+        return $this->getFromGoApi($query);
     }
 
     /**
@@ -52,42 +61,38 @@ class Query extends AbstractBridgeClient
      */
     public function runUpdate($tablename, array $values, $where)
     {
-        $string = 'update=' . $tablename . '&';
+        $query = 'update=' . $tablename . '&where=' . $where . '&';
 
         $size = sizeof($values)-1;
         $count = 0;
 
         foreach ($values as $key => $value) {
             if ($count == $size) {
-                $string .= $key . '=' . $value;
+                $query .= $key . '=' . $value;
             } else {
-                $string .= $key . '=' . $value . '&';
+                $query .= $key . '=' . $value . '&';
             }
 
             $count++;
         }
-        var_dump($string); die;
-        return $this->go_bridge->execute($string, true);
+
+        return $this->getFromGoApi($query);
     }
 
-    /**
-     * Выполнить процедуру.
-     *
-     * @param string $procedure
-     * @return array
-     */
-    public function callProcedure($procedure)
+    private function getFromGoApi($command)
     {
-        $this->go_bridge->setQueryString('call');
+        curl_setopt($this->ch, CURLOPT_POSTFIELDS, $command);
 
-        return $this->go_bridge->execute($procedure);
-    }
+        $result = json_decode(curl_exec($this->ch), true);
 
-    /**
-     * @return string
-     */
-    protected function filename()
-    {
-        return 'query';
+        foreach ($result as &$res) {
+            $res = json_decode($res, true);
+        }
+
+        if (sizeof($result) > 1) {
+            return $result;
+        }
+
+        return $result[0];
     }
 }

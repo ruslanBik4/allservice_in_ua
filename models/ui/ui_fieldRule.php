@@ -21,7 +21,7 @@ class ui_fieldRule
             "SELECT id FROM ui_input_fields_rules WHERE name = '%s'",
             $this->rule_name
         );
-        $query = new Query();
+        $query = new QueryOld();
         $result = $query->runSql($sql);
         if (empty($result)) {
             $this->changed = true;
@@ -61,7 +61,7 @@ JOIN ui_input_fields_rules r ON r.id = rc.id_ui_input_fields_rules AND r.name = 
 JOIN  ui_input_fields_constraints c ON c.id = rc.id_ui_input_fields_constraints",
             $this->rule_name);
 
-        $query = new Query();
+        $query = new QueryOld();
         $result = $query->runSql($sql);
         foreach ($result as $row) {
             $constraints[] = $row;
