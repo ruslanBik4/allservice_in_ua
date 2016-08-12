@@ -10,7 +10,6 @@ class roomProcessing
     {
         var_dump($_POST);
         $this->data = $_POST;
-
         $this->processing();
     }
 
@@ -46,9 +45,9 @@ class roomProcessing
     }
 
     protected function writeToDBnew(){
-        $query = new Query();
+        $query = new QueryOld();
         $lastId = NULL;
-        debug::VD($this->dataAfterProcessing, '$this->dataAfterProcessing'.__FILE__.' '.__LINE__);
+        //debug::VD($this->dataAfterProcessing, '$this->dataAfterProcessing'.__FILE__.' '.__LINE__);
 
         foreach($this->dataAfterProcessing as $table => $fields) {
             $tableName = $table;
@@ -58,7 +57,10 @@ class roomProcessing
                     $fields[$key] = $lastId;
                 }
             }
+            debug::VD($tableName, '$tableName'.__FILE__.' '.__LINE__);
+            debug::VD($fields, '$fields'.__FILE__.' '.__LINE__);
             $result = $query->runInsert($tableName, $fields);
+            debug::VD($result, '$result'.__FILE__.' '.__LINE__);
             $lastId = $result[0];
         }
     }
@@ -67,7 +69,7 @@ class roomProcessing
     protected function writeToDB()
     {
 
-        $query = new Query();
+        $query = new QueryOld();
         $id = NULL;
 
         // Производим запись в базу

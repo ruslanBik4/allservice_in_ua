@@ -32,7 +32,7 @@ foreach ($_POST as $key => $value){
 }
 // заношу в базу
 
-$query = new Query();
+$query = new QueryOld();
 
 foreach($mas as $table => $fields) {  
     

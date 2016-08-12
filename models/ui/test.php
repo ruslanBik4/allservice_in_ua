@@ -11,6 +11,7 @@
 require_once '../autoload.php';
 
 $f = new ui_inputForm('client_registration');
+debug::VD($f);
 echo $f->toHtml();
 ?>
 

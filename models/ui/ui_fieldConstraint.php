@@ -21,7 +21,7 @@ class ui_fieldConstraint
             "SELECT id FROM ui_input_fields_constraints WHERE name = '%s'",
             $this->name
         );
-        $query = new Query();
+        $query = new QueryOld();
         $result = $query->runSql($sql);
         if (empty($result)) {
             throw new Exception('constraint '.$this->name.' нет в справочнике');

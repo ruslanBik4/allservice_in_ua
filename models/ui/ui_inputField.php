@@ -45,7 +45,7 @@ class ui_inputField
                             LEFT JOIN ui_input_fields_rules r ON r.id = f.id_ui_input_fields_rules 
                             WHERE f.id=%d ORDER BY f.npp",
                 $this->id_field);
-            $query = new Query();
+            $query = new QueryOld();
             $result = $query->runSql($sql);
             if(empty($result)){
                 # исключение id не найден

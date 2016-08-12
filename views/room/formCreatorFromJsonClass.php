@@ -42,8 +42,7 @@ class formCreatorFromJsonClass
      * @return string
      */
     public function formCreation($obrabotchik = null){
-
-        $print = "<form method='post' action='{$obrabotchik}'>";
+        $print = "<form method='post' action='{$obrabotchik}' onSubmit='return validate(this)'>";
         $print.= $this->inputCreation();
         $print.= '<br><input type="submit">';
         $print.= '</form>';
