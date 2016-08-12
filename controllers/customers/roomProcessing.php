@@ -8,7 +8,7 @@ class roomProcessing
 
     protected $debug;
 
-    public function __construct($debug = NULL)
+    public function __construct($debug = false)
     {
         $this->debug = ($debug)? true : false;
         debug::VD($_POST, '$_POST '.__FILE__.' '.__LINE__ , $this->debug);
@@ -24,7 +24,7 @@ class roomProcessing
         foreach ($this->data as $key => $value) {
             $params = explode(':', $key);
             if ($params[0] !== $previousNameOfTable) {
-                $previousNameOfTable = $tableName[] = $params[0];
+                $previousNameOfTable = $params[0];
             }
             if($params[1] == 'pass_sha1'){
                 $value = hash("sha256", $value);
@@ -35,21 +35,22 @@ class roomProcessing
     }
 
     protected function writeToDB(){
-        $query = new QueryOld();
-        $lastId = NULL;
+        $query = new Query();
+        $lastId = [];
 
         foreach($this->dataAfterProcessing as $table => $fields) {
             $tableName = $table;
-            foreach ($fields as $key => $value){
-                if(preg_match('/id_*/',$key)){
-                    $fields[$key] = $lastId;
+            if (count($lastId) > 0)
+                foreach ($fields as $key => $value){
+                    if(preg_match('/id_*/',$key)){
+                        $fields[$key] = $lastId[$key];
+                    }
                 }
-            }
             debug::VD($tableName, '$tableName'.__FILE__.' '.__LINE__, $this->debug);
             debug::VD($fields, '$fields'.__FILE__.' '.__LINE__, $this->debug);
             $result = $query->runInsert($tableName, $fields);
             debug::VD($result, '$result'.__FILE__.' '.__LINE__, $this->debug);
-            $lastId = $result[0];
+            $lastId["id_$table"] = $result;
         }
     }
 }
