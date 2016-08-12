@@ -18,7 +18,7 @@
                     echo $controller->getFormRegistration();
                     break;
                 case 'roomProcessing.php':
-                    $room = new roomProcessing();
+                    $room = new roomProcessing(1);
                     break;
                 case 'authorization':
                     $controller = new customerAuthorizarionController();
