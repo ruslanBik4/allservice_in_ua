@@ -10,7 +10,6 @@ class roomProcessing
     {
         var_dump($_POST);
         $this->data = $_POST;
-
         $this->processing();
     }
 
@@ -25,7 +24,7 @@ class roomProcessing
         // формируем массив вида $mas = [имя таблицы] [name of input)] [значение]
 
         foreach ($this->data as $key => $value) {
-            $params = explode(':', $key);
+            $params = explode('__', $key);
             if ($params[0] !== $previousNameOfTable) {
                 $counter++;
                 $previousNameOfTable = $tableName[] = $params[0];
@@ -48,7 +47,7 @@ class roomProcessing
     protected function writeToDBnew(){
         $query = new Query();
         $lastId = NULL;
-        debug::VD($this->dataAfterProcessing, '$this->dataAfterProcessing'.__FILE__.' '.__LINE__);
+        //debug::VD($this->dataAfterProcessing, '$this->dataAfterProcessing'.__FILE__.' '.__LINE__);
 
         foreach($this->dataAfterProcessing as $table => $fields) {
             $tableName = $table;
@@ -58,7 +57,10 @@ class roomProcessing
                     $fields[$key] = $lastId;
                 }
             }
-            $result = $query->runInsert($tableName, $fields);
+            //debug::VD($tableName, '$tableName'.__FILE__.' '.__LINE__);
+            //debug::VD($fields, '$fields'.__FILE__.' '.__LINE__);
+            //$result = $query->runInsert($tableName, $fields);
+            debug::VD($result, '$result'.__FILE__.' '.__LINE__);
             $lastId = $result[0];
         }
     }

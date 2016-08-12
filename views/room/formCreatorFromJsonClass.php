@@ -42,8 +42,7 @@ class formCreatorFromJsonClass
      * @return string
      */
     public function formCreation($obrabotchik = null){
-
-        $print = "<form method='post' action='{$obrabotchik}'>";
+        $print = "<form method='post' action='{$obrabotchik}' onSubmit='return validate(this)'>";
         $print.= $this->inputCreation();
         $print.= '<br><input type="submit">';
         $print.= '</form>';
@@ -107,7 +106,7 @@ class formCreatorFromJsonClass
                     $result.= "<label for='{$id}'>{$label}</label><br>";
                 }
                 // Главный input
-                $result.= "<input type = '{$type}' name = '{$tableName}:{$name}' class = '{$class}' id = '{$id}' $valueInput /><br>";
+                $result.= "<input type = '{$type}' name = '{$tableName}__{$name}' class = '{$class}' id = '{$id}' $valueInput /><br>";
             }
         }
         return $result;
