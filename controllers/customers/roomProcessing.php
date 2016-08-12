@@ -30,7 +30,7 @@ class roomProcessing
                 $previousNameOfTable = $tableName[] = $params[0];
             }
             if($params[1] == 'pass_sha1'){
-                $value = passwordProcessing::encryptPass($value);
+                $value = hash("sha256", $value);
             }
             $mas[$params[0]][$params[1]] = $value;
         }
