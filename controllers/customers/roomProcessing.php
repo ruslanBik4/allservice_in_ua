@@ -24,7 +24,7 @@ class roomProcessing
         // формируем массив вида $mas = [имя таблицы] [name of input)] [значение]
 
         foreach ($this->data as $key => $value) {
-            $params = explode('__', $key);
+            $params = explode(':', $key);
             if ($params[0] !== $previousNameOfTable) {
                 $counter++;
                 $previousNameOfTable = $tableName[] = $params[0];

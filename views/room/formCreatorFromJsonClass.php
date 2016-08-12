@@ -106,7 +106,7 @@ class formCreatorFromJsonClass
                     $result.= "<label for='{$id}'>{$label}</label><br>";
                 }
                 // Главный input
-                $result.= "<input type = '{$type}' name = '{$tableName}__{$name}' class = '{$class}' id = '{$id}' $valueInput /><br>";
+                $result.= "<input type = '{$type}' name = '{$tableName}:{$name}' class = '{$class}' id = '{$id}' $valueInput /><br>";
             }
         }
         return $result;
