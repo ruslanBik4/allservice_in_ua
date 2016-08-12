@@ -14,7 +14,7 @@ class user
         $this->permission_table = [];
         $this->permission_action = [];
 
-        $query = new Query();
+        $query = new QueryOld();
 
         $sql = sprintf(
             "SELECT pt.table_name, pt.permission FROM ref_users u 

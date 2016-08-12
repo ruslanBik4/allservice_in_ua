@@ -46,7 +46,7 @@ class roomProcessing
     }
 
     protected function writeToDBnew(){
-        $query = new Query();
+        $query = new QueryOld();
         $lastId = NULL;
         debug::VD($this->dataAfterProcessing, '$this->dataAfterProcessing'.__FILE__.' '.__LINE__);
 
@@ -67,7 +67,7 @@ class roomProcessing
     protected function writeToDB()
     {
 
-        $query = new Query();
+        $query = new QueryOld();
         $id = NULL;
 
         // Производим запись в базу

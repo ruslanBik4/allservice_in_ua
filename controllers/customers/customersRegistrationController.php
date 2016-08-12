@@ -17,7 +17,7 @@ class customersRegistrationController {
     public function getFormRegistration() {
         
          // извлекает свойства полей таблиц для регистрации
-        $queryObject = new Query();
+        $queryObject = new QueryOld();
         $query = "input_form_info('client_registration')";
         $json = $queryObject->callProcedure($query); 
         $form = new formCreatorFromJsonClass($json, $this->queryString);
