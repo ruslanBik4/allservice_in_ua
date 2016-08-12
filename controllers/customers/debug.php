@@ -8,10 +8,12 @@
  */
 class debug
 {
-    public static function VD($data, $message = NULL){
-        echo '<pre><br>Debug start '.$message.'<br>';
-        var_dump($data);
-        echo '<br>Debug finish<br></pre>';
+    public static function VD($data, $message = NULL, $show = true){
+        if($show){
+            echo '<pre><br>Debug start '.$message.'<br>';
+            var_dump($data);
+            echo '<br>Debug finish<br></pre>';
+        }
     }
 
     public static function EC($data, $message = NULL){
