@@ -7,7 +7,8 @@ class ui_fieldConstraint
     private $relative_html_input_name;
 
     private $id_constraint;
-    private $changed; // flag
+    private $changed; // bool flag
+
 
     /**
      * ui_fieldConstraint constructor.
@@ -23,9 +24,9 @@ class ui_fieldConstraint
         $query = new Query();
         $result = $query->runSql($sql);
         if (empty($result)) {
-            $this->changed = true;
+            throw new Exception('constraint '.$this->name.' нет в справочнике');
         } else {
-            $this->id_constraint = result[0]['id'];
+            $this->id_constraint = $result[0]['id'];
             $this->changed = false;
         }
     }
@@ -35,12 +36,16 @@ class ui_fieldConstraint
         return json_encode($this);
     }
 
-    public function save()
+/*    public function save()
     {
         if ($this->changed) {
-
+            $query = new Query();
+            if (empty($this->id_constraint)){
+                # вставить в справочник
+                $this->id_constraint= $query->runInsert('ui_input_fields_constraints',['name'=>$this->name])[0];
+            }
         }
-    }
+    }*/
 
     /**
      * @return mixed
@@ -83,5 +88,21 @@ class ui_fieldConstraint
     {
         $this->relative_html_input_name = $relative_html_input_name;
         $this->changed = true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdConstraint()
+    {
+        return $this->id_constraint;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isChanged()
+    {
+        return $this->changed;
     }
 }

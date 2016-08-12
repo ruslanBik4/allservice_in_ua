@@ -4,6 +4,7 @@ class ui_fieldRule
 {
 
     private $rule_name;
+    private $description;
     private $constraints; //array ui_fieldConstraint object
 
     private $id_rule;
@@ -23,6 +24,7 @@ class ui_fieldRule
         );
         $query = new Query();
         $result = $query->runSql($sql);
+        # если $result пустой значит это новое правило
         if (empty($result)) {
             $this->changed = true;
         } else {
@@ -34,12 +36,10 @@ class ui_fieldRule
 
     /**
      * @param string $name
-     * @param string|NULL $value
-     * @param string|NULL $relative_html_input_name
      */
-    public function addConstraint($name, $value = NULL, $relative_html_input_name = NULL)
+    public function addConstraint($name)
     {
-        $this->constraints[$name] = new ui_fieldConstraint($name, $value, $relative_html_input_name);
+        $this->constraints[$name] = new ui_fieldConstraint($name);
     }
 
 
@@ -64,7 +64,7 @@ JOIN  ui_input_fields_constraints c ON c.id = rc.id_ui_input_fields_constraints"
         $query = new Query();
         $result = $query->runSql($sql);
         foreach ($result as $row) {
-            $constraints[] = $row;
+            $constraints[$row['name']] = $row;
         }
         return $constraints;
     }
@@ -72,7 +72,16 @@ JOIN  ui_input_fields_constraints c ON c.id = rc.id_ui_input_fields_constraints"
     public function save()
     {
         if ($this->changed) {
-
+            if (empty($this->id_rule)){
+                #insert
+            }else{
+                #update
+            }
+        }
+        foreach($this->constraints as $constraint){
+            if ($constraint->isChanged()){
+                
+            }
         }
     }
 
@@ -98,6 +107,23 @@ JOIN  ui_input_fields_constraints c ON c.id = rc.id_ui_input_fields_constraints"
     public function getIdRule()
     {
         return $this->id_rule;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        $this->changed = true;
     }
 
 

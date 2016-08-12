@@ -75,7 +75,7 @@ WHERE html_name='%s'",
         $query = new Query();
         $result = $query->runSql($sql);
         foreach ($result as $field) {
-            $fields[] = new ui_inputField($field['id']);
+            $fields[$field['id']] = new ui_inputField($field['id']);
         }
         return $fields;
     }
