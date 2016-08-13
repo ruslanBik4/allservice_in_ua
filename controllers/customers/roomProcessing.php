@@ -2,131 +2,90 @@
 
 class roomProcessing
 {
+    // Массив $_POST до обработки
     protected $data;
-
+    // Массив $_POST после обработки вида [имя таблицы] [name of input] [значение]
     protected $dataAfterProcessing;
+    // Режим отладки: true - отладка, false - обычный
+    protected $debug;
 
-    public function __construct()
+    /**
+     * Конструктор принимает параметр $debug:
+     *  - если false (по умолчанию) - обычный режим;
+     *  - если true - активизирует метод debugger() для отладки
+     * roomProcessing constructor.
+     * @param bool $debug
+     */
+    public function __construct($debug = false)
     {
-        var_dump($_POST);
+        $this->debug = ($debug)? true : false;
+        $this->debugger($_POST);
         $this->data = $_POST;
         $this->processing();
+        try{
+            echo $this->writeToDB();
+        } catch (Exception $e){
+            echo $e->getMessage();
+        }
+    }
+
+    /**
+     * Метод для вывод на экран информации о переменной при отладки
+     * @param $param
+     */
+    public function debugger($param){
+            debug::VD($param,  __FILE__.' '.__LINE__ , $this->debug);
     }
 
     protected function processing()
     {
-
+        // Имя предыдущей таблицы
         $previousNameOfTable = '';
 
-        // счетчик
-        $counter = -1;
-
-        // формируем массив вида $mas = [имя таблицы] [name of input)] [значение]
-
+        // формируем массив вида [имя таблицы] [name of input] [значение]
         foreach ($this->data as $key => $value) {
             $params = explode(':', $key);
             if ($params[0] !== $previousNameOfTable) {
-                $counter++;
-                $previousNameOfTable = $tableName[] = $params[0];
+                $previousNameOfTable = $params[0];
             }
             if($params[1] == 'pass_sha1'){
-                $value = passwordProcessing::encryptPass($value);
+                // Желательное хеширование
+                //$value = passwordProcessing::encryptPass($value);
+
+                // Хеширование на данный момент от Руслана
+                $value = hash("sha256", $value);
             }
-            $mas[$params[0]][$params[1]] = $value;
+            $this->dataAfterProcessing[$params[0]][$params[1]] =  $value;
         }
-
-        $this->dataAfterProcessing = $mas;
-
-        // Было
-        //$this->writeToDB();
-
-        // Стало
-        $this->writeToDBnew();
     }
 
-    protected function writeToDBnew(){
-        $query = new QueryOld();
-        $lastId = NULL;
-        //debug::VD($this->dataAfterProcessing, '$this->dataAfterProcessing'.__FILE__.' '.__LINE__);
+    /**
+     * Метод для поочередной записи данных в разные таблицы, при возникновении ошибки записи выбрасывает исключение
+     * @return string
+     * @throws Exception
+     */
+    protected function writeToDB(){
+        $query = new Query();
+        // Массив номеров записей в таблицах вида [id_имя_таблицы] => [id_номер_записи]
+        $lastId = [];
 
-        foreach($this->dataAfterProcessing as $table => $fields) {
-            $tableName = $table;
-            foreach ($fields as $key => $value){
-                //debug::VD($key, '$key'.__FILE__.' '.__LINE__);
-                if(preg_match('/id_*/',$key)){
-                    $fields[$key] = $lastId;
+        foreach($this->dataAfterProcessing as $tableName => $fields) {
+
+            if (count($lastId) > 0)
+                foreach ($fields as $key => $value){
+                    if(preg_match('/id_*/',$key)){
+                        $fields[$key] = $lastId[$key];
+                    }
                 }
-            }
-            debug::VD($tableName, '$tableName'.__FILE__.' '.__LINE__);
-            debug::VD($fields, '$fields'.__FILE__.' '.__LINE__);
+            $this->debugger($tableName, '$tableName'.__FILE__.' '.__LINE__, $this->debug);
+            $this->debugger($fields, '$fields'.__FILE__.' '.__LINE__, $this->debug);
             $result = $query->runInsert($tableName, $fields);
-            debug::VD($result, '$result'.__FILE__.' '.__LINE__);
-            $lastId = $result[0];
-        }
-    }
-
-    // Старая функция
-    protected function writeToDB()
-    {
-
-        $query = new QueryOld();
-        $id = NULL;
-
-        // Производим запись в базу
-        foreach($this->dataAfterProcessing as $table => $fields) {
-
-            // Формируем запрос типа
-            // insert into ref_users ( name, login, pass_sha1 ) values ( 'misha', 'mishamart', 'pass' )
-
-            $sql = "insert into $table (";
-            $comma = $values = '';
-
-
-            foreach($fields as $fieldName => $value) {
-
-                if($fieldName == 'pass_sha1'){
-                    $value = passwordProcessing::encryptPass($value);
-
-                    debug::VD($value, '$value'.__FILE__.' '.__LINE__);
-                }
-
-                $sql .= "$comma $fieldName";
-
-                if(preg_match('/id_*/',$fieldName)){
-                    $values .= "$comma '$result[0]'";
-                } else {
-                    $values .= "$comma '$value'";
-                }
-                $comma = ',';
+            $this->debugger($result, '$result'.__FILE__.' '.__LINE__, $this->debug);
+            if(!is_int($result)){
+                throw new Exception("Ошибка записи {$result}");
             }
-            $sql .= " ) values ( $values )";
-            echo '<br>' . ($sql). '<br>';
-
-            // Отправка запроса
-            $result = $query->runSql($sql);
+            $lastId["id_$tableName"] = $result;
         }
+        return 'Запись в базу прошла успешно';
     }
-
-    // Функция сверки данных с таблицами, на данный момент в процессе реконструкции
-    protected function collationOfData(){
-        // Следует проверить цикл
-//        echo 'Осуществляем сверку массивов mas[0], mas[1] ... mas[n] с таблицами<br>';
-//
-//        for($i = 0; $i<count($tableName); $i++)
-//        {
-//            echo 'Имя таблицы '.$tableName[$i].'<br>';
-//            $table = new formCreatorClass($tableName[$i]);
-//            $proverka = $table->sverka($mas[$i]);
-//
-//            switch($proverka){
-//                case true:
-//                    echo 'Массив прошел проверку и может быть обработан';
-//                    break;
-//                case false:
-//                    echo 'Массив не прошел проверку';;
-//            }
-//            echo '<br>';
-//        }
-    }
-
 }
