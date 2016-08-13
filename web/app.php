@@ -9,8 +9,6 @@
 
     switch ($arrPath[0]) {
         case 'customers': {
-
-            
             switch ($arrPath[1])  {
                 case 'registration':
                     $parameters = explode('?', $arrPath[2]);
@@ -18,11 +16,11 @@
                     echo $controller->getFormRegistration();
                     break;
                 case 'roomProcessing.php':
-                    $room = new roomProcessing(1);
+                    $room = new roomProcessing();
                     break;
                 case 'authorization':
                     $controller = new customerAuthorizarionController();
-                    var_dump($controller);
+                    $controller->getFormAuthorization();
                     break;
                 case 'showtable':
                     $table = new tableDrawing($arrPath[2]);

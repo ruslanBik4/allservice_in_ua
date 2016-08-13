@@ -84,7 +84,7 @@ class roomProcessing
             if(!is_int($result)){
                 throw new Exception("Ошибка записи {$result}");
             }
-            $lastId["id_$tableName"] = $result;
+            $lastId["id_{$tableName}"] = $result;
         }
         return 'Запись в базу прошла успешно';
     }

@@ -1,16 +1,20 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Михаил
- * Date: 08.08.2016
- * Time: 16:04
- */
 class customerAuthorizarionController
 {
     public function __construct()
     {
-        echo 'HU!';
+        echo 'Hi Authorization!';
+    }
+
+    /**
+     *Метод для отрисовки формы авторизации
+     */
+    public function getFormAuthorization(){
+        $queryObject = new QueryOld();
+        $query = "input_form_info('client_authorization')";
+        $json = $queryObject->callProcedure($query);
+        debug::VD($json);
     }
 
 }
