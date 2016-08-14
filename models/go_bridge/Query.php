@@ -34,7 +34,7 @@ class Query
      */
     public function callProcedure($procedure)
     {
-        return $this->getFromGoApi('call=' . $sql);
+        return $this->getFromGoApi('call=' . $procedure);
     }
 
     /**
@@ -93,7 +93,18 @@ class Query
         }
 
         if (sizeof($result) > 1) {
-            return $result;
+            
+            if ( array_key_exists( 'Number', $result) ) {
+                
+                echo "Send to '{$this->ch}' command '$command' & get error '{$result['Message']}'";
+                
+                throw new Exception($result);
+                
+                return false;
+                
+            }
+            else
+                return $result;
         }
 
         return $result[0];
