@@ -27,25 +27,28 @@ class Query
     }
 
     /**
+     * Выполнить процедуру.
+     *
+     * @param string $procedure
+     * @return array
+     */
+    public function callProcedure($procedure)
+    {
+        return $this->getFromGoApi('call=' . $sql);
+    }
+
+    /**
      * @param string $tableName
      * @param array $values
      * @return array
      */
     public function runInsert($tableName, array $values)
     {
-        $query = 'insert=' . $tableName . '&';
-
-        $size = sizeof($values)-1;
-        $count = 0;
+        $query = 'insert=' . $tableName;
 
         foreach ($values as $key => $value) {
-            if ($count == $size) {
-                $query .= $key . '=' . $value;
-            } else {
-                $query .= $key . '=' . $value . '&';
-            }
-
-            $count++;
+            
+            $query .= '&' . $key . '=' . $value;
         }
 
         return $this->getFromGoApi($query);
