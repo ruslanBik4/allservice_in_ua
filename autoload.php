@@ -19,7 +19,6 @@
            'isenka/bridge',
            'investors',
            'models/go_bridge/',
-           'models/go_bridge/old', // временно
            'room',
            'models/ui',
            'views/room'
