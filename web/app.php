@@ -9,6 +9,8 @@
 
     switch ($arrPath[0]) {
         case 'customers': {
+
+            
             switch ($arrPath[1])  {
                 case 'registration':
                     $parameters = explode('?', $arrPath[2]);
@@ -20,7 +22,7 @@
                     break;
                 case 'authorization':
                     $controller = new customerAuthorizarionController();
-                    $controller->getFormAuthorization();
+                    echo $controller->getFormAuthorization();
                     break;
                 case 'showtable':
                     $table = new tableDrawing($arrPath[2]);
@@ -33,11 +35,31 @@
        }
             break;
         case 'admin':
-              echo 'admin';
-              isAuthorization();
-              break;
+            switch ($arrPath[1])  {
+                case 'tables':
+                    $controller = new adminTablesController();
+                    $content    = $controller->getResponse();
+                    break;
+                default:
+                  echo 'admin';
+            }
+            break;
         case 'user':
         default:
-            echo 'app.php'.var_dump($_REQUEST);  
+            ?>
+             <ul>
+                 <li><a href="customers/registration">Регистрация</a></li> 
+                 <li><a href="customers/authorization">Авторизация</a></li> 
+                 <li><a href="customers/showtable/ref_clients">Таблица клиентов</a></li> 
+                 <li><a href="customers/showtable/ref_users">Пользователи</a></li> 
+                 <li><a href="customers/showtable/ref_roles">Роли</a></li> 
+                 <li><a href="customers/showtable/ref_permissions">Права</a></li> 
+                 <li><a href="customers/showtable/clients">Клиенты</a></li> 
+                 <li><a href="admin">Админка</a></li> 
+                 <li><a href="admin/tables">Список всех таблиц</a></li> 
+             </ul>
+            <?php  
         
     } 
+    ?>
+    <div> <?=$content?> </div>
