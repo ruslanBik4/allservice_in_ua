@@ -29,7 +29,7 @@
            // пробуем проанализировать имя класса, чтобы сразу определить путь до него
            $path = '';       
            $partWord = preg_split( "/(?=[A-Z])/", $className, -1, PREG_SPLIT_NO_EMPTY);
-           
+
            echo "Печатаю части имени класса '$className', по которым буду определять путь до его файла: <br>";
            
            foreach($partWord as $part) {

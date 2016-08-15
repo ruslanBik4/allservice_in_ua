@@ -1,6 +1,6 @@
 <?php
 
-class roomProcessing
+class prepareAndRunRequest
 {
     // Массив $_POST до обработки
     protected $data;
@@ -8,6 +8,8 @@ class roomProcessing
     protected $dataAfterProcessing;
     // Режим отладки: true - отладка, false - обычный
     protected $debug;
+
+    protected $query;
 
     /**
      * Конструктор принимает параметр $debug:
@@ -22,8 +24,9 @@ class roomProcessing
         $this->debugger($_POST);
         $this->data = $_POST;
         $this->processing();
+        $this->query = new Query();
         try{
-            echo $this->writeToDB();
+            echo $this->runInsert();
         } catch (Exception $e){
             echo $e->getMessage();
         }
@@ -64,8 +67,7 @@ class roomProcessing
      * @return string
      * @throws Exception
      */
-    protected function writeToDB(){
-        $query = new Query();
+    protected function runInsert(){
         // Массив номеров записей в таблицах вида [id_имя_таблицы] => [id_номер_записи]
         $lastId = [];
 
@@ -79,7 +81,7 @@ class roomProcessing
                 }
             $this->debugger($tableName, '$tableName'.__FILE__.' '.__LINE__, $this->debug);
             $this->debugger($fields, '$fields'.__FILE__.' '.__LINE__, $this->debug);
-            $result = $query->runInsert($tableName, $fields);
+            $result = $this->query->runInsert($tableName, $fields);
             $this->debugger($result, '$result'.__FILE__.' '.__LINE__, $this->debug);
             if(!is_int($result)){
                 throw new Exception("Ошибка записи {$result}");

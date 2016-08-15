@@ -6,7 +6,7 @@
  * Time: 19:18
  * @property Repository repository
  */
-class categoryController
+class usersCategoryController
 {
     private $responce;
     public function __construct()

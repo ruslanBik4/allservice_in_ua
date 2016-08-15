@@ -18,6 +18,14 @@ class customersRegistrationController {
         $this->actionAttribute = $actionAttribute;
         if ($getParams)
             $this->getParams = array_merge($this->getParams, $getParams);
+
+        // Если $getParams['signin'] есть, значит форма была заполнена, небходимо создать нового пользователя
+        // В противном случае необходимо отобразить форму для регистрации
+        if(isset($getParams['signin'])){
+            $newUser = new prepareAndRunRequest();
+        } else {
+            echo $this->getFormRegistration();
+        }
     }
 
 

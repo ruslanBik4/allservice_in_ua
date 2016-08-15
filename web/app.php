@@ -14,11 +14,8 @@
             switch ($arrPath[1])  {
                 case 'registration':
                     $parameters = explode('?', $arrPath[2]);
-                    $controller = new customersRegistrationController( $_GET['handler'] ? : 'roomProcessing.php', $_GET );
-                    echo $controller->getFormRegistration();
-                    break;
-                case 'roomProcessing.php':
-                    $room = new roomProcessing();
+                    var_dump($_GET);
+                    $controller = new customersRegistrationController( $_GET['handler'] ? : 'registration/?signin', $_GET );
                     break;
                 case 'authorization':
                     $controller = new customerAuthorizarionController();
