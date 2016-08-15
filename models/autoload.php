@@ -7,6 +7,7 @@
        
        $pathInclude = [ 
            'models',
+           'models/go_bridge',
            'models/config',
            'models/ui',
            'views',
@@ -18,9 +19,7 @@
            'controllers',
            'controllers/customers',
            'isenka',
-           'isenka/bridge',
            'investors',
-           'models/go_bridge',
            'config'
        ];
        
@@ -36,6 +35,15 @@
                switch ($part) {
                    case 'Controller':
                         $path = "controllers$path";
+                        break;
+                   case 'View':
+                        $path = "views$path";
+                        break;
+                   case 'admin':
+                        $path = "$path/admin";
+                        break;
+                   case 'users':
+                        $path = "$path/users";
                         break;
                    case 'Model':
                         $path = "models$path";
