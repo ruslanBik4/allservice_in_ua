@@ -45,6 +45,10 @@
             }
             break;
         case 'user':
+            
+            $controller = new usersDefaultController();
+            $content    = $controller->getResponse();
+            $leftContent = $controller->getLeftPanel();
         default:
             ?>
              <ul>
@@ -62,4 +66,5 @@
         
     } 
     ?>
-    <div> <?=$content?> </div>
+    <div id="left_pane" style="float:left: width:230px"> <?=$leftContent?> </div>
+    <div id="content" style="float:left: width:230px"> <?=$content?> </div>
