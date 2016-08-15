@@ -82,6 +82,10 @@ class Query
             $res = json_decode($res, true);
         }
 
+        if (array_key_exists('Number', $result[0])) {
+            throw new Exception("Error {$result[0]['Number']}: {$result[0]['Message']}");
+        }
+
         if (sizeof($result) > 1) {
             
             if ( array_key_exists( 'Number', $result) ) {
