@@ -47,7 +47,6 @@ class Query
         $query = 'insert=' . $tableName;
 
         foreach ($values as $key => $value) {
-            
             $query .= '&' . $key . '=' . $value;
         }
 
@@ -64,19 +63,10 @@ class Query
      */
     public function runUpdate($tablename, array $values, $where)
     {
-        $query = 'update=' . $tablename . '&where=' . $where . '&';
-
-        $size = sizeof($values)-1;
-        $count = 0;
+        $query = 'update=' . $tablename . '&where=' . $where;
 
         foreach ($values as $key => $value) {
-            if ($count == $size) {
-                $query .= $key . '=' . $value;
-            } else {
-                $query .= $key . '=' . $value . '&';
-            }
-
-            $count++;
+            $query .= '&' . $key . '=' . $value;
         }
 
         return $this->getFromGoApi($query);
