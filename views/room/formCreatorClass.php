@@ -1,219 +1,112 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Михаил
- * Date: 24.07.2016
- * Time: 23:06
- */
 class formCreatorClass
 {
-    // имя таблицы переданное пользователем
-    public $name;
-    // экземляр класса FieldsInfoRepository, который работает с ГО
-    public $data;
-    // все данные о колонках таблицы полученные из ГО
-    public $tableColumn;
-    // Храним имена полей таблицы
-    public $tableNames = array();
-    
-    
+    //Весь массив данных декодированный из json
+    protected $arrayFromJson;
 
+    //Храню все значение db_field_name, что бы избежать повторений 
+    protected $inputNamesArray = array();
+
+    private $queryString = [];
+    
     /**
-     * roomClass constructor.
-     * Принимает наименование таблицы.
-     * Создаем экземляр класса FieldsInfoRepository
-     * Вызываем метод FieldsInfoRepository getTable для получения массивом
-     * всех параметров таблицы, записываем в свойство tableColumn
-     * @param string $tableName
+     * Принимаем массив и записываем в $this->arrayFromJson
+     * FormCreatorFromJsonClass constructor.
+     * @param array $array
      */
-    public function __construct($tableName = '')
+    public function __construct(array $array, $queryString = null)
     {
-        $this->name = $tableName;
-        $this->data = new FieldsInfoRepositoryOLD();
-        $this->tableColumn = $this->data->getTable($tableName);
-        
+        if ($queryString)
+            $this->queryString = $queryString;
+
+
+        $this->arrayFromJson = $array;
     }
-
-
+    
     /**
-     * Функция принимает путь к обработчику, возвращает готовую форму
+     * Функция принимает путь к обработчику формы регистрации, возвращает готовую форму для регистрации
      * Если обработчик не передан, считаем обработчиком текущую файл
      * @param null $obrabotchik
      * @return string
      */
     public function formCreation($obrabotchik = null){
         $print = "<form method='post' action='{$obrabotchik}'>";
-        // Создаем скрытое поле tableName - для передачи имени таблицы
-        $print.= "<input type='hidden' name='tableName' value='{$this->name}'>";
-        try
-        {
-            foreach ($this->tableColumn as $key => $value){
-                if(!is_array($value)) continue;
-                    foreach ($value as $x => $y){
-                        if($x == "COLUMN_NAME"){
-                            $print.=$this->insertField($y);
-                        }
-                    }
-            }
-            $print.= '<input type="submit">';
-            $print.= '</form>';
-            return $print;
-        }
-        catch(Exception $e) {
-            echo $e->GetMessage();
-        }
+        $print.= $this->inputCreation();
+        $print.= '<br><input type="submit">';
+        $print.= '</form>';
+
+        return $print;
     }
 
-
     /**
-     * Возращает номер поля (номер массива) по заданному имени поля $columnName
-     * @param $columnName
-     * @return int|string
-     */
-    public function getArrayFromColumnName($columnName){
-        foreach ($this->tableColumn as $key=>$value){
-            if(is_array($value))
-            {
-                if(array_search($columnName, $value)){
-                    return $key;
-                }
-            }
-        }
-        return 'Такого имени поля в таблице не существует';
-    }
-
-
-    /**
-     * Функция принимает COLUMN_NAME, ищет по нему номер
-     * массива (через функцию getArrayFromColumnName). Вытаскиваем нужный массив по номеру.
-     * В нем и будут все параметры поля. Формируем label, input и возвращет в виде строки
-     * @param array $fieldsParams
+     * Формируем (скрытый input + label + input) и возвращем в виде строки
      * @return string
      */
-    public function insertField($fieldName){
-        $nomerMassiva = $this->getArrayFromColumnName($fieldName);
-        $fieldsParams = $this->tableColumn[$nomerMassiva];
-        if ($fieldsParams['COLUMN_NAME'] === 'id')
-            return '';
+    public function inputCreation(){
+        $result = '';
 
-        $type = $fieldsParams['DATA_TYPE'];
-        $fieldType = '';
-        $types = array('text' => 'text', 'char' => 'text', 'varchar' => 'text', 'int'=>'number', 'tinyint'=>'checkbox' );
-        foreach ($types as $key => $value){
-            if($type == $key){
-                $fieldType = $value;
-            }
-        }
-        $fieldName = $fieldsParams['COLUMN_NAME'];
-        if(strpos($fieldsParams['COLUMN_NAME'], 'id_') !== FALSE)
-            try {
-                global $data;
-                $table1 = substr( $fieldsParams['COLUMN_NAME'], 3);
-                $fieldTitle = ($fieldsParams['TITLE'] ? : $fieldsParams['COLUMN_NAME']);
-                $result = '';
-                //Вставка №1//
-            }
-            catch( Exception $e) {
-                echo $e->GetMessage();
-            }
-        else {
+        $arrFields = $this->arrayFromJson;
+        // Перебираем данные
+        foreach ($arrFields as $number => $field){
 
-            $fieldTitle = ($fieldsParams['TITLE'] ? : ($fieldsParams['COLUMN_COMMENT'] ? : $fieldsParams['COLUMN_NAME']) );
-            $fieldValue = $fieldsParams['COLUMN_DEFAULT'];
-            $result = "<label>{$fieldTitle}</label><br><input type={$fieldType} name={$fieldName} value={$fieldValue}><br>";
+            // Флажок пропуска итерации цикла
+            $skipInputLabelCreation = 0;
+
+            foreach ($field as $attribite => $value){
+                switch ($attribite){
+                    case 'html_name':
+
+                        // Если такое db_field_name ранее встречалось, устанавливаем $skipInputLabelCreation = 1
+                        if(in_array($value, $this->inputNamesArray))
+                        {
+                            $skipInputLabelCreation = 1;
+                        }
+                        $this->inputNamesArray[] = $name = $value;
+                        break;
+                    case 'db_table_name':
+                        $tableName = $value;
+                        break;
+                    case 'html_class':
+                        $class = $value;
+                        break;
+                    case 'html_id':
+                        $id = $value;
+                        break;
+                    case 'html_type':
+                        $type = $value;
+                        break;
+                    case 'label':
+                        $label = $value;
+                        if($label == 'label'){
+                            unset($label);
+                        }
+                        break;
+                }
+            }
+
+
+            if(!$skipInputLabelCreation)
+            {
+                $valueInput = ( $this->queryString[$name] ? "value='".$this->queryString[$name] . "'" : '');
+
+                if(isset($label)){
+                    $result.= "<label for='{$id}'>{$label}</label><br>";
+                }
+                // Главный input
+                $result.= "<input type = '{$type}' name = '{$tableName}:{$name}' class = '{$class}' id = '{$id}' $valueInput /><br>";
+            }
         }
         return $result;
     }
 
     /**
-     * Функция проверяет соответсвуют ли ключи массива пост ($params)
-     * значениям COLUMN_NAME метаданным таблицы ($this->tableColumn)
-     * Возвращает true если проверка пройдена
-     * Возвращает false если выявили не соответствие
-     * @param $params
-     * @return bool
+     * Геттер для arrayFromJson
+     * @return array
      */
-    public function sverka($params)
+    public function getArrayFromJson()
     {
-        reset($params);
-        foreach($this->tableColumn as $key => $value)
-        {
-            if(!is_array($value)) continue;
-            foreach ($value as $x => $y){
-                if(($x == "COLUMN_NAME") && strpos($y, 'id')===FALSE){
-                    if($y == key($params)){
-                        next($params);
-                    } else {
-                        return false;
-                    }
-
-                }
-            }
-
-        }
-        return true;
+        return $this->arrayFromJson;
     }
+
 }
-
-
-
-
-
-
-// Вставка №1 - начало
-// Имеет смысл при задании категорий
-//                $result = 'Поля из ' . $table1. ': ' . "<label>{$fieldTitle}</label>
-//        <select name={$fieldName} onchange='alert( \"div.$table1.show() \")'>
-//        <option value=0 > Новый </option>
-//        <option selected > Что-то есть</option>
-//        </select><div id='$table1'> ";
-
-// !!!Рекурсия не работает, так как нужно переопраделять $tableColumn
-//                $arr = $this->data->getTable($table1);
-//                echo '<pre>';
-//                var_dump($arr);
-//                echo '</pre>';
-//                foreach ($arr as $key => $value){
-//                    if(!is_array($value)) continue;
-//                    foreach ($value as $x => $y){
-//                        if($x == "COLUMN_NAME"){
-//                            $result.=$this->insertField($y);
-//                        }
-//                    }
-//                }
-
-
-
-//                foreach ($arr  as $value)
-//                    if(is_array($value)) {
-//                        $result .= $this->insertField( $value );
-//                    }
-//                    else
-//                        echo $value;
-
-//     Имеет смысл при задании категорий
-//                $result .= '<div>';
-// Вставка №1 - конец
-
-
-
-
-
-
-
-
-//      Старый рабочий вариант
-//        try
-//        {
-//            foreach ($this->tableColumn as $value){
-//                if(!is_array($value)) continue;
-//                $print.= $this->insertField2($value);
-//            }
-//            $print.= '<input type="submit">';
-//            $print.= '</form>';
-//            return $print;
-//        }
-//        catch(Exception $e) {
-//            echo $e->GetMessage();
-//        }

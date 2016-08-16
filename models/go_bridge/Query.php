@@ -27,25 +27,27 @@ class Query
     }
 
     /**
+     * Выполнить процедуру.
+     *
+     * @param string $procedure
+     * @return array
+     */
+    public function callProcedure($procedure)
+    {
+        return $this->getFromGoApi('call=' . $procedure);
+    }
+
+    /**
      * @param string $tableName
      * @param array $values
      * @return array
      */
     public function runInsert($tableName, array $values)
     {
-        $query = 'insert=' . $tableName . '&';
-
-        $size = sizeof($values)-1;
-        $count = 0;
+        $query = 'insert=' . $tableName;
 
         foreach ($values as $key => $value) {
-            if ($count == $size) {
-                $query .= $key . '=' . $value;
-            } else {
-                $query .= $key . '=' . $value . '&';
-            }
-
-            $count++;
+            $query .= '&' . $key . '=' . $value;
         }
 
         return $this->getFromGoApi($query);
@@ -61,19 +63,10 @@ class Query
      */
     public function runUpdate($tablename, array $values, $where)
     {
-        $query = 'update=' . $tablename . '&where=' . $where . '&';
-
-        $size = sizeof($values)-1;
-        $count = 0;
+        $query = 'update=' . $tablename . '&where=' . $where;
 
         foreach ($values as $key => $value) {
-            if ($count == $size) {
-                $query .= $key . '=' . $value;
-            } else {
-                $query .= $key . '=' . $value . '&';
-            }
-
-            $count++;
+            $query .= '&' . $key . '=' . $value;
         }
 
         return $this->getFromGoApi($query);
@@ -89,8 +82,23 @@ class Query
             $res = json_decode($res, true);
         }
 
+        if (array_key_exists('Number', $result[0])) {
+            throw new Exception("Error {$result[0]['Number']}: {$result[0]['Message']}");
+        }
+
         if (sizeof($result) > 1) {
-            return $result;
+            
+            if ( array_key_exists( 'Number', $result) ) {
+                
+                echo "Send to '{$this->ch}' command '$command' & get error '{$result['Message']}'";
+                
+                throw new Exception($result);
+                
+                return false;
+                
+            }
+            else
+                return $result;
         }
 
         return $result[0];
