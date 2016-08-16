@@ -1,0 +1,15 @@
+
+nav:before {
+    content: '';
+    clear: both;
+}
+
+
+.left,.right{
+width: 48%;
+float: left;
+margin: 2px;
+padding: 2px;
+border: 1px solid #000000;
+border-radius: 5px;
+}
