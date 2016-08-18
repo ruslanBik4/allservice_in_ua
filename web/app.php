@@ -13,17 +13,19 @@
             
             switch ($arrPath[1])  {
                 case 'registration':
-                    $parameters = explode('?', $arrPath[2]);
                     var_dump($_GET);
-                    $controller = new customersRegistrationController( $_GET['handler'] ? : 'registration/?signin', $_GET );
+                    $controller = new customersRegistrationController( $_GET['handler'] ? : 'registration/?signup', $_GET );
                     break;
                 case 'authorization':
-                    $controller = new customerAuthorizarionController();
-                    echo $controller->getFormAuthorization();
+                    var_dump($_GET);
+                    $controller = new customersAuthorizarionController( $_GET['handler'] ? : '?signin', $_GET );;
                     break;
                 case 'showtable':
                     $table = new tableDrawing($arrPath[2]);
                     echo $table->getTable();
+                    break;
+                case 'office':
+                    echo 'Добро пожаловать в личный кабинет!';
                     break;
                 default:
                 echo 'Hello, customers!';
