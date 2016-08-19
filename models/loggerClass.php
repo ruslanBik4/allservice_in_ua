@@ -28,7 +28,7 @@
             	
         	}
         	
-        	if ($debug) {
+        	if ($this->debug) {
             	echo $text;
         	} else {
             	file_put_contents(__DIR__ . "/log_" . date('Y-m-d h:i:s') . ".txt", $text);
