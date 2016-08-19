@@ -12,15 +12,23 @@ class prepareAndRunRequest
     protected $query;
     // Номер записи для обновления, он же служит флагом обновления
     protected $where = null;
+    // Отвечает за действие: signin - авторизация, signup - регистрация, update - обновление данных
+    protected $action;
 
     /**
-     * Конструктор принимает параметр $debug:
-     *  - если false (по умолчанию) - обычный режим;
-     *  - если true - активизирует метод debugger() для отладки
-     * roomProcessing constructor.
+     * * Конструктор принимает параметр $debug и $action:
+     * $debug:
+     *  - false (по умолчанию) - обычный режим;
+     *  - true - активизирует метод debugger() для отладки
+     * prepareAndRunRequest constructor.
+     * $action:
+     *  - signin - авторизация
+     *  - signup - регистрация
+     *  - update - обновление данных
+     * @param string $action
      * @param bool $debug
      */
-    public function __construct($debug = false)
+    public function __construct($action = '', $debug = false)
     {
         $this->debug = ($debug)? true : false;
         $this->debugger($_POST);
@@ -28,10 +36,18 @@ class prepareAndRunRequest
         $this->processing();
         $this->query = new Query();
         try{
-            if($this->where){
-                echo $this->runUpdate();
-            } else {
+            // авторизация
+            if($action == 'signin') {
+                $this->runPasswordVerification();
+                header("Location: http://allservice_in_ua.loc/customers/office");
+            }
+            // регистрация
+            elseif($action == 'signup'){
                 echo $this->runInsert();
+            }
+            // обновление
+            elseif($action == 'update') {
+                $this->runUpdate();
             }
         } catch (Exception $e){
             echo $e->getMessage();
@@ -62,12 +78,14 @@ class prepareAndRunRequest
             if ($params[0] !== $previousNameOfTable) {
                 $previousNameOfTable = $params[0];
             }
-            if($params[1] == 'pass_sha1'){
-                // Желательное хеширование
-                //$value = passwordProcessing::encryptPass($value);
 
-                // Хеширование на данный момент от Руслана
-                $value = hash("sha256", $value);
+            if($params[1] == 'pass_sha1' && $this->action == 'singup'){
+                // Желательное хеширование
+                $value = passwordProcessing::encryptPass($value);
+                var_dump($value);
+
+                // Хеширование от Руслана
+                //$value = hash("sha256", $value);
             }
 
             // Определяем будет ли у нас update данных в базе.
@@ -76,9 +94,38 @@ class prepareAndRunRequest
                 $this->where = $value;
             }
 
+            // Планирую добавить маркер сверки данных
+//            if(strpos(($params[1]), 'id_')){
+//                $this->relation = true;
+//            }
+
             $this->dataAfterProcessing[$params[0]][$params[1]] =  $value;
         }
     }
+
+    /**
+     * Метод проводит сверку пароля, если ок, перебрасывает на страницу личного кабинета
+     * @return string
+     * @throws Exception
+     */
+    protected function runPasswordVerification(){
+        foreach($this->dataAfterProcessing as $tableName => $fields)
+        {
+                $sql = "SELECT pass_sha1 FROM {$tableName} WHERE login='{$fields['login']}'";
+                // Получаем из базы хъш пароля в виде array(['pass_sha1'] => хэш_пароля)
+                $hash = $this->query->runSql($sql);
+                // Проводим проверку, совпадает ли наш хэш, с хэшем из базу
+                // $password_verification = true - совпадают,
+                // $password_verification = false - не совпадают.
+                $password_verification = passwordProcessing::verificationPassAndHash($fields['pass_sha1'],$hash['pass_sha1']);
+
+                if(!$password_verification){
+                    throw new Exception("Логин и пароль не совпадает");
+                }
+        }
+        return 'Авторизация прошла успешно';
+    }
+
 
     /**
      * Метод для поочередной записи данных в разные таблицы, при возникновении ошибки записи выбрасывает исключение
