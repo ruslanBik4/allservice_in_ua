@@ -3,7 +3,7 @@
 class Router
 {
     /**
-     * Массим со всеми назначеными путями.
+     * Список назначенных путей.
      *
      * @var array
      */
@@ -63,29 +63,49 @@ class Router
     }
 
     /**
+     * Вернуть список всех путей.
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
+    }
+
+    /**
      * Найти подходящий путь и вернуть данные для него.
      *
-     * @throws Exception
      * @param string $method
      * @param string $path
      * @return array
      */
     public function findRoute($method, $path)
     {
+        // Убрать строку запроса
+        if ($position = strpos($path, "?")) {
+            $path = substr($path, 0, strpos($path, "?"));
+        }
+
+        // Убрать '/'
+        $path = rtrim($path, '/');
+        $path = ($path == '') ? '/' : $path;
+
         $parts = explode('/', $path);
         $count = count($parts);
 
+        // Массив для хранения потенциально подходящих путей
         $matches = [];
 
-        // Находим пути с таким же количеством элементов.
+        // Найти пути с таким же количеством элементов
         foreach ($this->routes[$method] as $route) {
             if ($route['Size'] == $count) {
                 $matches[] = $route;
             }
         }
-        // Ищем путь.
+
+        // Найти нужный путь среди потенциально походящих путей
         foreach ($matches as $match) {
-            // В первую очередь проверяем пути без пемеренных.
+            // В первую очередь проверить среди путей без пемеренных
             if (!array_key_exists('Variables', $match)) {
                 if ($route = $this->checkStaticRoute($match, $parts, $count)) {
                     return [
@@ -94,6 +114,7 @@ class Router
                     ];
                 }
             } else {
+                // Проверить среди путей с переменными
                 if ($route = $this->checkDynamicRoute($match, $parts, $count)) {
                     return [
                         'Controller' => $route['Controller'],
@@ -108,17 +129,7 @@ class Router
     }
 
     /**
-     * Вернуть список всех путей.
-     *
-     * @return array
-     */
-    public function getRoutes()
-    {
-        return $this->routes;
-    }
-
-    /**
-     * Добавить путь в свойство $routes.
+     * Добавить новый путь.
      *
      * @param string $method
      * @param string $route
@@ -130,6 +141,7 @@ class Router
         $parts = explode('/', $route);
         $count = count($parts);
 
+        //
         $variables = [];
 
         foreach ($parts as &$part) {
@@ -154,7 +166,7 @@ class Router
     }
 
     /**
-     * Проверить существует ли путь без переменных.
+     * Проверить существует ли путь (для путей без переменных).
      *
      * @param string $match
      * @param array $parts
@@ -180,17 +192,17 @@ class Router
     }
 
     /**
-     * Проверить существует ли путь с переменными.
+     * Проверить существует ли путь (для путей с переменными).
      *
      * @param string $match
      * @param array $parts
      * @param int $count
      * @param int $iteration
-     * @return null
+     * @return array|null
      */
     private function checkDynamicRoute($match, $parts, $count, $iteration = null)
     {
-        // Итерация рекурсивного повтора метода.
+        // Количество рекурсивных итераций
         $iteration = 0;
 
         for ($i = 0; $i <= ($count-1); $i++) {
