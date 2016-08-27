@@ -76,7 +76,7 @@ try {
                  <li><a href="customers/showtable/ref_users">Пользователи</a></li> 
                  <li><a href="customers/showtable/ref_roles">Роли</a></li> 
                  <li><a href="customers/showtable/ref_permissions">Права</a></li> 
-                 <li><a href="customers/showtable/investors">Инвесторы</a></li> 
+                 <li><a href="investors/admin">Инвесторы</a></li>
                  <li><a href="admin">Админка</a></li> 
                  <li><a href="admin/tables">Список всех таблиц</a></li> 
              </ul>
