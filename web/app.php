@@ -9,8 +9,6 @@
 
     switch ($arrPath[0]) {
         case 'customers': {
-
-            
             switch ($arrPath[1])  {
                 case 'registration':
                     var_dump($_GET);
@@ -32,6 +30,24 @@
             }
             break;
        }
+            break;
+        case 'investors':{
+            $controller = new investorsController();
+            switch ($arrPath[1]){
+                case 'admin':
+                case 'edit':
+                case 'add':
+                case 'delete':
+                case 'correct':
+                case 'update':
+                    $controller->$arrPath[1]();
+                    break;
+                default:
+                    $controller->visitor();
+                    break;
+            }
+        }
+
             break;
         case 'admin':
             switch ($arrPath[1])  {

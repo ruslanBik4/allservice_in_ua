@@ -68,7 +68,6 @@ class Query
         foreach ($values as $key => $value) {
             $query .= '&' . $key . '=' . $value;
         }
-
         return $this->getFromGoApi($query);
     }
 

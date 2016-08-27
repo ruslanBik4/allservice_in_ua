@@ -22,6 +22,7 @@
            'views/investors',
            'controllers',
            'controllers/customers',
+           'controllers/investors',
            'isenka',
            'investors',
            'config'
@@ -57,7 +58,9 @@
                    case 'customer':
                         $path = "$path/customers";
                         break;
-                  
+                   case 'investors':
+                       $path = "$path/investors";
+                       break;
                }
                
                $logger->addTextToLog(  $part . '  ' );

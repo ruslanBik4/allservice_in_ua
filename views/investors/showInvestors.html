@@ -1,0 +1,27 @@
+<table>
+<?php foreach($data as $array){ ?>
+    <tr>
+        <td>
+            <?=$array["id"]?>
+        </td>
+        <td>
+            <?=$array["name"]?>
+        </td>
+        <td>
+            <?=$array["country"]?>
+        </td>
+        <td>
+            <form method='post' action='delete' id='<?=$array["id"]?>'>
+                <input form='<?=$array["id"]?>' type='hidden' name='delete' value='<?=$array["id"]?>'>
+                <button form='<?=$array["id"]?>'>Удалить запись</button>
+            </form>
+        </td>
+        <td>
+            <form method='post' action='correct'>
+                <input type='hidden' name='correct' value='<?=$array["id"]?>'>
+                <button>Корректировать запись</button>
+            </form>
+        </td>
+    </tr>
+    <?php } ?>
+</table>
