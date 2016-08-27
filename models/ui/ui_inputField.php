@@ -299,5 +299,13 @@ class ui_inputField
         return $this->id_field;
     }
 
+    /**
+     * @return ui_fieldRule
+     */
+    public function getRule()
+    {
+        return $this->rule;
+    }
+
 
 }

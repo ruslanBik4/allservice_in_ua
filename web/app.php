@@ -1,29 +1,32 @@
 <?php
     
-      require_once '../models/autoload.php';
+    error_reporting(E_ALL);
+    
+    require_once '../models/autoload.php';
     
     $arrPath = explode('/', $_REQUEST['path']);
+    
 
-    //var_dump($arrPath);
-
-
+try {
+    
     switch ($arrPath[0]) {
         case 'customers': {
             switch ($arrPath[1])  {
                 case 'registration':
-                    var_dump($_GET);
-                    $controller = new customersRegistrationController( $_GET['handler'] ? : 'registration/?signup', $_GET );
+                    $parameters = explode('?', $arrPath[2]);
+                    $controller = new customersRegistrationController( $_GET['handler'] ? : 'roomProcessing.php', $_GET );
+                    echo $controller->getFormRegistration();
+                    break;
+                case 'roomProcessing.php':
+                    $room = new roomProcessing();
                     break;
                 case 'authorization':
-                    var_dump($_GET);
-                    $controller = new customersAuthorizarionController( $_GET['handler'] ? : '?signin', $_GET );;
+                    $controller = new customersAuthorizarionController();
+                    echo $controller->getFormAuthorization();
                     break;
                 case 'showtable':
                     $table = new tableDrawing($arrPath[2]);
                     echo $table->getTable();
-                    break;
-                case 'office':
-                    echo 'Добро пожаловать в личный кабинет!';
                     break;
                 default:
                 echo 'Hello, customers!';
@@ -73,13 +76,16 @@
                  <li><a href="customers/showtable/ref_users">Пользователи</a></li> 
                  <li><a href="customers/showtable/ref_roles">Роли</a></li> 
                  <li><a href="customers/showtable/ref_permissions">Права</a></li> 
-                 <li><a href="customers/showtable/clients">Клиенты</a></li> 
+                 <li><a href="customers/showtable/investors">Инвесторы</a></li> 
                  <li><a href="admin">Админка</a></li> 
                  <li><a href="admin/tables">Список всех таблиц</a></li> 
              </ul>
             <?php  
         
     } 
+} catch( Exception $e) {
+var_dump($e);
+}
     ?>
     <div id="left_pane" style="float:left: width:230px"> <?=$leftContent?> </div>
     <div id="content" style="float:left: width:230px"> <?=$content?> </div>
