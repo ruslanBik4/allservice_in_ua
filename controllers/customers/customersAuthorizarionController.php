@@ -18,8 +18,8 @@ class customersAuthorizarionController
             $User = new prepareAndRunRequest('signin');
         }
         else
-        {
-            echo $this->getFormAuthorization();
+        { 
+//            echo $this->getFormAuthorization();
         }
     }
 
