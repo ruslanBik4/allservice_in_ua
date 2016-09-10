@@ -15,13 +15,13 @@ try {
                 case 'registration':
                     $parameters = explode('?', $arrPath[2]);
                     $controller = new customersRegistrationController( $_GET['handler'] ? : 'roomProcessing.php', $_GET );
-                    echo $controller->getFormRegistration();
+                    $content = $controller->getFormRegistration();
                     break;
                 case 'roomProcessing.php':
                     $room = new roomProcessing();
                     break;
                 case 'authorization':
-                    $controller = new customersAuthorizarionController();
+                    $controller = new customersAuthorizarionController($_REQUEST);
                     $content = $controller->getFormAuthorization();
                     break;
                 case 'showtable':

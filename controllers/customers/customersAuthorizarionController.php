@@ -6,8 +6,7 @@ class customersAuthorizarionController
 
     private $getParams = [];
 
-    public function __construct($actionAttribute, $getParams = null) {
-        $this->actionAttribute = $actionAttribute;
+    public function __construct($getParams = null) {
         if ($getParams)
             $this->getParams = array_merge($this->getParams, $getParams);
 
@@ -18,7 +17,7 @@ class customersAuthorizarionController
             $User = new prepareAndRunRequest('signin');
         }
         else
-        { 
+        {
 //            echo $this->getFormAuthorization();
         }
     }
@@ -30,7 +29,8 @@ class customersAuthorizarionController
         $queryObject = new Query();
         $query = "input_form_info('client_authorization')";
         $data = $queryObject->callProcedure($query);
+        $this->actionAttribute = $data[0]['action'];
         $form = new formCreatorClass($data, $this->getParams);
-        return "Для регистрации заполните форму:<br>Она отправиться на {$this->actionAttribute}<br>". $form->formCreation($this->actionAttribute );
+        return "Для авторизации заполните форму:<br>Она отправиться на {$this->actionAttribute}<br>". $form->formCreation($this->actionAttribute );
     }
 }
