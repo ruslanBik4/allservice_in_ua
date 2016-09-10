@@ -35,7 +35,6 @@ class formCreatorClass
         $print.= $this->inputCreation();
         $print.= '<br><input type="submit">';
         $print.= '</form>';
-
         return $print;
     }
 

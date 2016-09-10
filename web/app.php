@@ -5,7 +5,7 @@
     require_once '../models/autoload.php';
     
     $arrPath = explode('/', $_REQUEST['path']);
-    
+
 
 try {
     
@@ -28,8 +28,11 @@ try {
                     $table = new tableDrawing($arrPath[2]);
                     echo $table->getTable();
                     break;
-                default:
-                echo 'Hello, customers!';
+                case 'office':
+                    $office = new customersOfficeController();
+                    break;
+//                default:
+//                echo 'Hello, customers!';
             }
             break;
        }
