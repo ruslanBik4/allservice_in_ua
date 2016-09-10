@@ -21,7 +21,7 @@ class tableDrawing
      */
     public function getTable(){
         $query = new Query();
-        $sql = "SELECT * FROM \`{$this->tableName}\`";
+        $sql = "SELECT * FROM `{$this->tableName}`";
         $this->tableFromDB = $query->runSql($sql);
         return $this->draw();
 

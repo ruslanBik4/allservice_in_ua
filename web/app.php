@@ -22,7 +22,7 @@ try {
                     break;
                 case 'authorization':
                     $controller = new customersAuthorizarionController();
-                    echo $controller->getFormAuthorization();
+                    $content = $controller->getFormAuthorization();
                     break;
                 case 'showtable':
                     $table = new tableDrawing($arrPath[2]);
