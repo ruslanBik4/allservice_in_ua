@@ -30,7 +30,6 @@ class prepareAndRunRequest
      */
     public function __construct($action = '', $debug = false)
     {
-        var_dump($action);
         $this->debug = ($debug)? true : false;
         $this->debugger($_POST);
         $this->data = $_POST;
@@ -49,9 +48,6 @@ class prepareAndRunRequest
             // обновление
             elseif($action == 'update') {
                 $this->runUpdate();
-            } elseif($action == 'service_add'){
-
-                $this->runInsert();
             }
         } catch (Exception $e){
             echo $e->getMessage();
@@ -139,7 +135,6 @@ class prepareAndRunRequest
     protected function runInsert(){
         // Массив номеров записей в таблицах вида [id_имя_таблицы] => [id_номер_записи]
         $lastId = [];
-        
 
         foreach($this->dataAfterProcessing as $tableName => $fields) {
 
